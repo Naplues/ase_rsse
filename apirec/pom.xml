@@ -1,8 +1,101 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>ase.rsse</groupId>
-  <artifactId>apirec</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+	<modelVersion>4.0.0</modelVersion>
+    <groupId>ase.rsse</groupId>
+    <artifactId>apirec</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    
+    <!-- PROPERTIES -->
+    <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+  
+  	<!-- LICENSE -->  
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+  
+  <!-- BUILD -->
+  <build>
+ 	<!-- PLUGIN MANAGMENT -->
+ 	<pluginManagement>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</pluginManagement>
+  
+  	<!-- PLUGINS -->
+	<plugins>
+		<plugin>
+		    <groupId>org.jacoco</groupId>
+		    <artifactId>jacoco-maven-plugin</artifactId>
+		    <version>0.7.7.201606060606</version>
+		    <executions>
+		        <execution>
+		            <goals>
+		                <goal>prepare-agent</goal>
+		            </goals>
+		        </execution>
+		        <execution>
+		            <id>report</id>
+		            <phase>prepare-package</phase>
+		            <goals>
+		                <goal>report</goal>
+		            </goals>
+		        </execution>
+		    </executions>
+		</plugin>
+	</plugins>
+  </build>
+  
+  <!-- We use two profiles for the build:
+  	* testing -> local
+  	* deployment -> repository
+   -->
+   <profiles>
+   		<!-- TESTING -->
+   		<profile>
+   			<id>testing</id>
+   			
+   			<activation><activeByDefault>true</activeByDefault></activation>
+   			
+   			<distributionManagement>
+			</distributionManagement>
+			
+			<build>
+				<plugins>
+				</plugins>
+			</build>
+   		</profile>
+   		
+   		<!-- DEPLOYMENT -->
+   		<profile>
+   			<id>deployment</id>
+   			
+   			<distributionManagement>
+   				<snapshotRepository>
+   				</snapshotRepository>
+   				<repository>
+   				</repository>
+   			</distributionManagement>
+   			
+   			<build>
+   				<plugins>
+   				</plugins>
+   			</build>
+   		</profile>
+   </profiles>
+  
+  <!-- DEPENDENCIES -->
   <dependencies>
   	<dependency>
   		<groupId>cc.kave</groupId>
@@ -15,4 +108,5 @@
   		<version>0.0.4</version>
   	</dependency>
   </dependencies>
+  
 </project>
