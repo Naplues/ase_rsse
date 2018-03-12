@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('compile') {
               steps {
-                echo 'Compiling......'
+                echo 'Compiling.......'
                 sh 'mvn clean install'
               }
          }
