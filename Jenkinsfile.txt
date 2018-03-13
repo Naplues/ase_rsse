@@ -1,9 +1,39 @@
 pipeline {
-    agent { docker { image 'maven:3.3.3' } }
+    agent any 
+	tools {
+		jdk 'jdk1.8.0_161'
+		maven 'apache-maven--3.5.3'
+	}
     stages {
-        stage('build') {
+		stage('Validate') {
+			steps {
+				bat 'mvn --version'
+				bat 'mvn validate'
+			}
+		}
+		stage('Complie') {
+			steps {
+				bat 'mvn compile'
+			}
+		}
+		stage('Package') {
+			steps {
+                bat 'mvn package'
+            }
+		}
+		stage('Test') { 
             steps {
-                sh 'mvn --version'
+                bat 'mvn test'
+            }
+        }
+        stage('Install') { 
+            steps {
+                bat 'mvn install'
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                bat 'mvn deploy'
             }
         }
     }
