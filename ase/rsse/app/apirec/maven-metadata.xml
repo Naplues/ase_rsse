@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>ase.rsse.app</groupId>
+  <artifactId>apirec</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20180313214931</lastUpdated>
+  </versioning>
+</metadata>
