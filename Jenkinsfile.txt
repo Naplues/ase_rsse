@@ -5,36 +5,10 @@ pipeline {
 		maven 'apache-maven--3.5.3'
 	}
     stages {
-		stage('Validate') {
+		stage('Deploy') {
 			steps {
-				bat 'mvn --version'
-				bat 'mvn validate'
+				bat 'mvn -f apirec/pom.xml clean deploy'
 			}
 		}
-		stage('Complie') {
-			steps {
-				bat 'mvn compile'
-			}
-		}
-		stage('Package') {
-			steps {
-                bat 'mvn package'
-            }
-		}
-		stage('Test') { 
-            steps {
-                bat 'mvn test'
-            }
-        }
-        stage('Install') { 
-            steps {
-                bat 'mvn install'
-            }
-        }
-        stage('Deploy') { 
-            steps {
-                bat 'mvn deploy'
-            }
-        }
     }
 }
