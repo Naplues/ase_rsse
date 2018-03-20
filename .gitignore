@@ -3,3 +3,4 @@
 *.prefs
 .project
 .classpath
+/.recommenders/
