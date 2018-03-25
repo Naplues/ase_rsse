@@ -24,7 +24,7 @@ public class Cook {
 
 		// get all events of a given user
 		List<IIDEEvent> events = IoUtility
-				.readEvent("C:\\workspaces\\ase_rsse\\apirec\\Events-170301-2\\2016-08-06\\2.zip");
+				.readEvent("2.zip");
 		for (IIDEEvent event : events) {
 			ArrayList<VersionControlEvent> versionControlEvents = new ArrayList<>();
 			ArrayList<CompletionEvent> completionEvents = new ArrayList<>();
