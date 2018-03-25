@@ -17,14 +17,14 @@ public class Cook {
 	public static void main(String[] args) {
 		// get all contexts for a given C# solution on GitHub
 		List<Context> contexts = IoUtility.readContext(
-				"C:\\workspaces\\ase_rsse\\apirec\\Contexts-170503\\JetBrains\\resharper-angularjs\\src\\resharper-angularjs.sln-contexts.zip");
+				"F:\\Wifo_Msc\\2. Semester\\Advanced SW Eng\\ase_rsse\\apirec\\src\\main\\java\\ase\\rsse\\cookbook\\resharper-angularjs.sln-contexts.zip");
 		for (Context ctx : contexts) {
 			System.out.println(ctx);
 		}
 
 		// get all events of a given user
 		List<IIDEEvent> events = IoUtility
-				.readEvent("2.zip");
+				.readEvent("F:\\Wifo_Msc\\2. Semester\\Advanced SW Eng\\ase_rsse\\apirec\\src\\main\\java\\ase\\rsse\\cookbook\\2.zip");
 		for (IIDEEvent event : events) {
 			ArrayList<VersionControlEvent> versionControlEvents = new ArrayList<>();
 			ArrayList<CompletionEvent> completionEvents = new ArrayList<>();
