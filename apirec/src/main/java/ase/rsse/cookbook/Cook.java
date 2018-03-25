@@ -1,9 +1,6 @@
 package ase.rsse.cookbook;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import ase.rsse.utils.IoUtility;
@@ -30,6 +27,7 @@ public class Cook {
 
 		ArrayList<VersionControlEvent> versionControlEvents = new ArrayList<>();
 		ArrayList<CompletionEvent> completionEvents = new ArrayList<>();
+		ArrayList<String> fileNames = new ArrayList<>();
 
 		for (IIDEEvent event : events) {
 
@@ -43,6 +41,7 @@ public class Cook {
 //			}
 			if(event instanceof CompletionEvent){
 				completionEvents.add((CompletionEvent) event);
+				fileNames.add(String.valueOf(((CompletionEvent) event).getContext().getTypeShape().getTypeHierarchy().getElement()));
 			}
 
 			// order the events by date
@@ -57,9 +56,12 @@ public class Cook {
 				.sorted(Comparator.comparing(CompletionEvent::getTriggeredAt))
 				.collect(Collectors.toList());
 		System.out.println("########## Total number of sorted Completion Events: " + ceSorted.size()+" ##########");
-		for(CompletionEvent completionEvent:ceSorted){
-			System.out.println("Event Trigger at: " + completionEvent.getTriggeredAt());
-		}
+//		for(CompletionEvent completionEvent:ceSorted){
+//			System.out.println("Event Trigger at: " + completionEvent.getTriggeredAt());
+//		}
+		System.out.println("########## Total number of files: " + fileNames.size()+" ##########");
+		Set<String> distinctFiles = new LinkedHashSet<>(fileNames);
+		System.out.println("########## Total number of distinct files: " + distinctFiles.size()+" ##########");
 		System.out.println("########## First SST ##########");
 		System.out.println(ceSorted.get(0).getContext().getSST());
 		System.out.println("########## Filename of First SST ##########");
