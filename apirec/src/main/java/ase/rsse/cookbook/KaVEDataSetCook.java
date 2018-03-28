@@ -6,25 +6,25 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import ase.rsse.utils.IoUtility;
+import ase.rsse.utilities.IoUtility;
 import cc.kave.commons.model.events.IIDEEvent;
 import cc.kave.commons.model.events.completionevents.CompletionEvent;
 import cc.kave.commons.model.events.completionevents.Context;
 import cc.kave.commons.model.events.versioncontrolevents.VersionControlEvent;
 
-public class Cook {
+public class KaVEDataSetCook {
 
 	public static void main(String[] args) {
 		// get all contexts for a given C# solution on GitHub
 		List<Context> contexts = IoUtility.readContext(
-				"C:\\workspaces\\ase_rsse\\apirec\\Contexts-170503\\JetBrains\\resharper-angularjs\\src\\resharper-angularjs.sln-contexts.zip");
+				"resharper-angularjs.sln-contexts.zip");
 		for (Context ctx : contexts) {
 			System.out.println(ctx);
 		}
 
 		// get all events of a given user
 		List<IIDEEvent> events = IoUtility
-				.readEvent("C:\\workspaces\\ase_rsse\\apirec\\Events-170301-2\\2016-08-06\\2.zip");
+				.readEvent("2.zip");
 		for (IIDEEvent event : events) {
 			ArrayList<VersionControlEvent> versionControlEvents = new ArrayList<>();
 			ArrayList<CompletionEvent> completionEvents = new ArrayList<>();
