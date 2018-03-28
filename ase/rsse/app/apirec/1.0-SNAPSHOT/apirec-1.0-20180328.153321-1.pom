@@ -84,6 +84,63 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- TEST COVERAGE -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.1</version>
+				<executions>
+					<execution>
+						<configuration>
+							<rules>
+								<rule>
+									<element>CLASS</element>
+									<excludes>
+										<exclude>*Test</exclude>
+										<exclude>*Cook</exclude>
+									</excludes>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>50%</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<configuration>
+							<rules>
+								<rule>
+									<element>CLASS</element>
+									<excludes>
+										<exclude>*Test</exclude>
+										<exclude>*Cook</exclude>
+										<exclude>*Utility</exclude>
+									</excludes>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>50%</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<distributionManagement>
