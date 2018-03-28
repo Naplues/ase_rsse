@@ -1,36 +1,22 @@
-package ase.rsse.utils;
+package ase.rsse.utilities;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+
+import org.apache.commons.io.FileUtils;
 
 import com.google.common.collect.Lists;
 
+import ase.rsse.apirec.transactions.ITransactionConstants;
 import cc.kave.commons.model.events.IIDEEvent;
 import cc.kave.commons.model.events.completionevents.Context;
-import cc.kave.commons.utils.io.Directory;
 import cc.kave.commons.utils.io.IReadingArchive;
 import cc.kave.commons.utils.io.ReadingArchive;
 
-public class IoUtility {
+public final class IoUtility {
 
-	public static Context readFirstContext(String dir) {
-		for (String zip : findAllZips(dir)) {
-			List<Context> ctxs = readContext(zip);
-			return ctxs.get(0);
-		}
-		return null;
-	}
-
-	public static List<Context> readAll(String dir) {
-		LinkedList<Context> res = Lists.newLinkedList();
-
-		for (String zip : findAllZips(dir)) {
-			res.addAll(readContext(zip));
-		}
-		return res;
-	}
 
 	public static List<Context> readContext(String pathToContext) {
 		LinkedList<Context> res = Lists.newLinkedList();
@@ -60,11 +46,18 @@ public class IoUtility {
 		return res;
 	}
 
-	public static Set<String> findAllZips(String dir) {
-		return new Directory(dir).findFiles(s -> s.endsWith(".zip"));
+	public static void writeTransactionToFile(String fileName, String json) throws IOException {
+		// create file within Transactions folder
+		File file = new File(ITransactionConstants.TRANSACTION_DIRECTORY, fileName);
+		FileUtils.writeStringToFile(file, json);
 	}
 
-	public static Set<String> findAllJsons(String dir) {
-		return new Directory(dir).findFiles(s -> s.endsWith(".json"));
+	public static String readContent(String parentDir, String fileName) throws IOException {
+		File file = new File(parentDir, fileName);
+		return FileUtils.readFileToString(file);
+	}
+	
+	public static String readContentOfTransaction(String fileName) throws IOException {
+		return readContent(ITransactionConstants.TRANSACTION_DIRECTORY, fileName);
 	}
 }
