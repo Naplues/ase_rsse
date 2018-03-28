@@ -1,12 +1,9 @@
 package ase.rsse.apirec.transactions;
 
-import cc.kave.commons.model.ssts.visitor.ISSTNode;
-
 public class ChangeContext {
 	
 	private int index;
 	private Operation operation;
-	private ISSTNode nodeType;
 	private String label;
 	private float weightOfDependency;
 	private float weightOfScope;
@@ -15,7 +12,6 @@ public class ChangeContext {
 	public ChangeContext() {
 		
 	}
-	
 
 	public int getIndex() {
 		return index;
@@ -43,26 +39,9 @@ public class ChangeContext {
 		return this;
 	}
 
-
-	public ISSTNode getNodeType() {
-		return nodeType;
-	}
-
-
-	public void setNodeType(ISSTNode nodeType) {
-		this.nodeType = nodeType;
-	}
-	
-	public ChangeContext withNodeType(ISSTNode nodeType) {
-		this.nodeType = nodeType;
-		return this;
-	}
-
-
 	public String getLabel() {
 		return label;
 	}
-
 
 	public void setLabel(String label) {
 		this.label = label;
@@ -73,11 +52,9 @@ public class ChangeContext {
 		return this;
 	}
 
-
 	public float getWeightOfDependency() {
 		return weightOfDependency;
 	}
-
 
 	public void setWeightOfDependency(float weightOfDependency) {
 		this.weightOfDependency = weightOfDependency;
@@ -92,7 +69,6 @@ public class ChangeContext {
 		return weightOfScope;
 	}
 
-
 	public void setWeightOfScope(float weightOfScope) {
 		this.weightOfScope = weightOfScope;
 	}
@@ -105,7 +81,6 @@ public class ChangeContext {
 	public float getDistance() {
 		return distance;
 	}
-
 
 	public void setDistance(float distance) {
 		this.distance = distance;

@@ -1,19 +1,15 @@
 package ase.rsse.apirec.transactions;
 
-import cc.kave.commons.model.ssts.visitor.ISSTNode;
-
 public class CodeContext {
 	
 	private int index;
 	private Operation operation;
-	private ISSTNode nodeType;
 	private String label;
 	private float weightOfDependency;
 	private float weightOfScope;
 	private float distance;
 	
 	public CodeContext() {
-		
 	}
 
 	public int getIndex() {
@@ -23,6 +19,11 @@ public class CodeContext {
 	public void setIndex(int index) {
 		this.index = index;
 	}
+	
+	public CodeContext withIndex(int index) {
+		this.index = index;
+		return this;
+	}
 
 	public Operation getOperation() {
 		return operation;
@@ -31,13 +32,10 @@ public class CodeContext {
 	public void setOperation(Operation operation) {
 		this.operation = operation;
 	}
-
-	public ISSTNode getNodeType() {
-		return nodeType;
-	}
-
-	public void setNodeType(ISSTNode nodeType) {
-		this.nodeType = nodeType;
+	
+	public CodeContext withOperation(Operation operation) {
+		this.operation = operation;
+		return this;
 	}
 
 	public String getLabel() {
@@ -47,6 +45,11 @@ public class CodeContext {
 	public void setLabel(String label) {
 		this.label = label;
 	}
+	
+	public CodeContext withLabel(String label) {
+		this.label = label;
+		return this;
+	}
 
 	public float getWeightOfDependency() {
 		return weightOfDependency;
@@ -54,6 +57,11 @@ public class CodeContext {
 
 	public void setWeightOfDependency(float weightOfDependency) {
 		this.weightOfDependency = weightOfDependency;
+	}
+	
+	public CodeContext withWeightOfDependency(float weightOfDependency) {
+		this.weightOfDependency = weightOfDependency;
+		return this;
 	}
 
 	public float getWeightOfScope() {
@@ -63,6 +71,11 @@ public class CodeContext {
 	public void setWeightOfScope(float weightOfScope) {
 		this.weightOfScope = weightOfScope;
 	}
+	
+	public CodeContext withWeightOfScope(float weightOfScope) {
+		this.weightOfScope = weightOfScope;
+		return this;
+	}
 
 	public float getDistance() {
 		return distance;
@@ -70,5 +83,10 @@ public class CodeContext {
 
 	public void setDistance(float distance) {
 		this.distance = distance;
+	}
+	
+	public CodeContext withDistance(float distance) {
+		this.distance = distance;
+		return this;
 	}
 }
