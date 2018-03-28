@@ -1,22 +1,17 @@
 package ase.rsse.apirec.transactions;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import org.apache.commons.io.FileUtils;
-
-import cc.kave.commons.utils.io.json.JsonUtils;
+import java.util.List;
 
 public class Transaction {
 	
 	private String fileName;
-	private ArrayList<CodeContext> codeContext;
-	private ArrayList<ChangeContext> changeContex;
+	private List<CodeContext> codeContext;
+	private List<ChangeContext> changeContex;
 	
 	public Transaction() {
 		codeContext = new ArrayList<>();
-		setChangeContex(new ArrayList<>());
+		changeContex = new ArrayList<>();
 	}
 	
 	public String getFileName() {
@@ -26,28 +21,43 @@ public class Transaction {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+	
+	public Transaction withFileName(String fileName) {
+		this.fileName = fileName;
+		return this;
+	}
 
-	public ArrayList<CodeContext> getCodeContext() {
+	public List<CodeContext> getCodeContext() {
 		return codeContext;
 	}
-	public void setCodeContext(ArrayList<CodeContext> m_codeContext) {
-		this.codeContext = m_codeContext;
+	public void setCodeContext(ArrayList<CodeContext> codeContext) {
+		this.codeContext = codeContext;
 	}
 
-	public ArrayList<ChangeContext> getChangeContex() {
+	public Transaction withCodeContext(List<CodeContext> codeContext) {
+		this.codeContext = codeContext;
+		return this;
+	}
+	
+	public Transaction addCodeContext(CodeContext codeContext) {
+		this.codeContext.add(codeContext);
+		return this;
+	}
+
+	public List<ChangeContext> getChangeContex() {
 		return changeContex;
 	}
 
-	public void setChangeContex(ArrayList<ChangeContext> m_changeContex) {
-		this.changeContex = m_changeContex;
+	public void setChangeContex(ArrayList<ChangeContext> changeContex) {
+		this.changeContex = changeContex;
 	}
 	
-	public void serialize() {
-		String json = JsonUtils.toJson(this, Transaction.class);
-		try {
-			FileUtils.writeStringToFile(new File(fileName + ".json"), json, "UTF-8");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public Transaction withChangeContext(List<ChangeContext> changeContex) {
+		this.changeContex = changeContex;
+		return this;
+	}
+	
+	public void addChangeContext(ChangeContext changeContext) {
+		this.changeContex.add(changeContext);
 	}
 }
