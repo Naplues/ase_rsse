@@ -8,8 +8,6 @@ public final class JsonUtility {
 
 	private static Gson _gson;
 
-	public static String JSON_POST_FIX = ".json";
-
 	private static Gson getGson() {
 		if (_gson == null) {
 			_gson = new Gson();

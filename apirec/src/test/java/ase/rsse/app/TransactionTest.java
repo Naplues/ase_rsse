@@ -29,8 +29,6 @@ public class TransactionTest  {
 	
 	@BeforeClass
 	public static void setUp() {
-		File file = new File(ITransactionConstants.TRANSACTION_DIRECTORY, TEST_FILE_NAME);
-		file.delete();
 		CHANGE_CONTEXT = new ChangeContext()
 			.withIndex(0)
 			.withLabel("change_context_label")
