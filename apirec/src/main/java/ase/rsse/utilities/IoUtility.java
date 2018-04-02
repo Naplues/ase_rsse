@@ -2,6 +2,7 @@ package ase.rsse.utilities;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,5 +60,14 @@ public final class IoUtility {
 	
 	public static String readContentOfTransaction(String fileName) throws IOException {
 		return readContent(ITransactionConstants.TRANSACTION_DIRECTORY, fileName);
+	}
+	
+	public static File[] findAllTransactions() {
+		return Paths.get(ITransactionConstants.TRANSACTION_DIRECTORY)
+		.toFile()
+		.listFiles(file -> !file.isHidden() 
+				&&  file.isFile() 
+				&& file.getName().endsWith(".json")
+				&& !file.getName().startsWith("test"));
 	}
 }

@@ -1,17 +1,14 @@
 package ase.rsse.apirec.transactions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Transaction {
 	
 	private String fileName;
-	private List<CodeContext> codeContext;
-	private List<ChangeContext> changeContex;
+	private CodeContext codeContext;
+	private ChangeContext changeContex;
 	
 	public Transaction() {
-		codeContext = new ArrayList<>();
-		changeContex = new ArrayList<>();
+		codeContext = new CodeContext();
+		changeContex = new ChangeContext();
 	}
 	
 	public String getFileName() {
@@ -27,37 +24,28 @@ public class Transaction {
 		return this;
 	}
 
-	public List<CodeContext> getCodeContext() {
+	public CodeContext getCodeContext() {
 		return codeContext;
 	}
-	public void setCodeContext(ArrayList<CodeContext> codeContext) {
+	public void setCodeContext(CodeContext codeContext) {
 		this.codeContext = codeContext;
 	}
 
-	public Transaction withCodeContext(List<CodeContext> codeContext) {
+	public Transaction withCodeContext(CodeContext codeContext) {
 		this.codeContext = codeContext;
 		return this;
 	}
-	
-	public Transaction addCodeContext(CodeContext codeContext) {
-		this.codeContext.add(codeContext);
-		return this;
-	}
 
-	public List<ChangeContext> getChangeContex() {
+	public ChangeContext getChangeContex() {
 		return changeContex;
 	}
 
-	public void setChangeContex(ArrayList<ChangeContext> changeContex) {
+	public void setChangeContex(ChangeContext changeContex) {
 		this.changeContex = changeContex;
 	}
 	
-	public Transaction withChangeContext(List<ChangeContext> changeContex) {
+	public Transaction withChangeContext(ChangeContext changeContex) {
 		this.changeContex = changeContex;
 		return this;
-	}
-	
-	public void addChangeContext(ChangeContext changeContext) {
-		this.changeContex.add(changeContext);
 	}
 }

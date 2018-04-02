@@ -1,10 +1,7 @@
 package ase.rsse.cookbook;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import ase.rsse.utilities.IoUtility;
 import cc.kave.commons.model.events.IIDEEvent;
@@ -37,16 +34,6 @@ public class KaVEDataSetCook {
 				CompletionEvent completionEvent = (CompletionEvent) event;
 				completionEvents.add(completionEvent);
 			}
-
-			// order the events by date
-			List<VersionControlEvent> vceSorted = versionControlEvents.stream()
-					.filter(Objects::nonNull)
-					.sorted(Comparator.comparing(VersionControlEvent::getTriggeredAt, Comparator.reverseOrder()))
-					.collect(Collectors.toList());
-			List<CompletionEvent> ceSorted = completionEvents.stream()
-					.filter(Objects::nonNull)
-					.sorted(Comparator.comparing(CompletionEvent::getTriggeredAt, Comparator.reverseOrder()))
-					.collect(Collectors.toList());
 		}
 	}
 }
