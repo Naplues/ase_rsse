@@ -210,10 +210,10 @@ public final class MockDataUtility {
 		queryTokens.add("Set");
 		
 		QUERY_CODE_CONTEXT.addTokens(queryTokens);
-		
-		for (String token : queryTokens) {
-			QUERY_CODE_CONTEXT.addWeightOfDataDependency(queryTokens.indexOf(token), 1);;
-			QUERY_CODE_CONTEXT.addWeightOfScope(queryTokens.indexOf(token), 1);;
+
+		for (int i=0;i<queryTokens.size();i++) {
+			QUERY_CODE_CONTEXT.addWeightOfDataDependency(i, 1);;
+			QUERY_CODE_CONTEXT.addWeightOfScope(i, 1);;
 		}
 		
 		QueryTransaction queryTransaction = new QueryTransaction()
@@ -288,7 +288,7 @@ public final class MockDataUtility {
 				.withCodeContext(coctx3);
 		mockTransactions.add(t3);
 
-		// mock 4 -> we expect contains as candidate
+		// mock 4 -> we expect addAll as candidate
 		ChangeContext chctx4 = new ChangeContext();
 		CodeContext coctx4 = new CodeContext();
 		AtomicChange at6 = new AtomicChange()
@@ -302,7 +302,7 @@ public final class MockDataUtility {
 				.withCodeContext(coctx4);
 		mockTransactions.add(t4);
 
-		// mock 5 -> we expect contains as candidate
+		// mock 5 -> we expect clear as candidate
 		ChangeContext chctx5 = new ChangeContext();
 		CodeContext coctx5 = new CodeContext();
 		AtomicChange at7 = new AtomicChange()

@@ -23,6 +23,8 @@ import ase.rsse.apirec.transactions.Transaction;
 public final class ScoringUtility {
 
 	public static ArrayList<Transaction> ALL_TRANSACTIONS = getAllTransactions();
+	public static List<List<String>> changeContextScoreMatrix;
+	public static List<List<String>> codeContextScoreMatrix;
 
 	public static Set<AtomicChange> getAllCandidateChanges(QueryChangeContext queryChangeContext,
 			QueryCodeContext queryCodeContext) {
@@ -43,27 +45,84 @@ public final class ScoringUtility {
 		return candidateChanges;
 	}
 
-	public static double scoreChangeContext(Set<AtomicChange> candidateChanges, QueryChangeContext queryChangeContext) {
-		double changeContextScore = 0;
-		// calcualte the score for all candidate changes
+	public static List<List<String>> scoreChangeContext(Set<AtomicChange> candidateChanges, QueryChangeContext queryChangeContext) {
+		System.out.println("Query Change Context size: " + queryChangeContext.getQueryAtomicChanges().size());
+
+		List<String> columnQueryChanges = new ArrayList<>();
+		columnQueryChanges.add("Query Context Atomic Changes");
+		columnQueryChanges.add("============================");
+		queryChangeContext.getQueryAtomicChanges().forEach(change -> {
+			columnQueryChanges.add(
+					change.getOperation().toString()+","+
+					change.getNodeType().toString()+","+
+					change.getLabel());
+		});
+		columnQueryChanges.add("===========Final Scores==========");
+		changeContextScoreMatrix = new ArrayList<List<String>>();
+		changeContextScoreMatrix.add(columnQueryChanges);
+		// calculate the score for all candidate changes
+
 		for (AtomicChange candidateChange : candidateChanges) {
+			float changeContextScoreFinal = (float) 0.000;
+			List<String> candidateChangeScores = new ArrayList<>();
+			candidateChangeScores.add(candidateChange.getLabel());
+			candidateChangeScores.add("===============");
 			for (QueryAtomicChange queryChange : queryChangeContext.getQueryAtomicChanges()) {
-				double logCoOccurences = scoreOccurences(candidateChange, queryChange);
+				float changeContextScore = (float) 0.000;
+				double logCoOccurences = scoreChangeOccurences(candidateChange, queryChange);
 				float weightOfScope = queryChange.getWeihgtOfScope();
 				float weightOfDataDependency = queryChange.getWeightOfDataDependency();
 				float distance = queryChange.getDistance();
 				changeContextScore += (weightOfScope * weightOfDataDependency) / distance * logCoOccurences;
+				candidateChangeScores.add(String.format("%.4f", changeContextScore).substring(0,5));
 				System.out.println(changeContextScore);
+				changeContextScoreFinal += changeContextScore;
 			}
+			candidateChangeScores.add("|"+String.format("%.4f", changeContextScoreFinal).substring(0,5)+"|");
+			changeContextScoreMatrix.add(candidateChangeScores);
 		}
-		return changeContextScore;
+		return changeContextScoreMatrix;
 	}
 
-	public static double scoreCodeContext(Set<AtomicChange> candidateChanges, QueryCodeContext queryCodeContext) {
+	public static List<List<String>> scoreCodeContext(Set<AtomicChange> candidateChanges, QueryCodeContext queryCodeContext) {
+		float codeContextScore = (float) 0.000;
+
+		List<String> columnQueryChanges = new ArrayList<>();
+		columnQueryChanges.add("Query Context Atomic Tokens");
+		columnQueryChanges.add("============================");
+		queryCodeContext.getTokens().forEach(token -> {
+			columnQueryChanges.add(
+					"Token,"+
+					"Type,"+
+					token);
+		});
+		codeContextScoreMatrix = new ArrayList<List<String>>();
+		codeContextScoreMatrix.add(columnQueryChanges);
+		// calculate the score for all candidate changes
+
+		for (AtomicChange candidateChange : candidateChanges) {
+			List<String> candidateChangeScores = new ArrayList<>();
+			candidateChangeScores.add(candidateChange.getLabel());
+			candidateChangeScores.add("===============");
+
+			for (int i=0;i<queryCodeContext.getTokens().size();i++) {
+				double logCoOccurences = scoreCodeOccurences(candidateChange, queryCodeContext.getTokens().get(i));
+				float weightOfScope = queryCodeContext.getWeightOfScope().get(i);
+				float weightOfDataDependency = queryCodeContext.getWeightOfDataDependency().get(i);
+				codeContextScore += (weightOfScope * weightOfDataDependency) / (float) i * logCoOccurences;
+				candidateChangeScores.add(String.format("%.4f", codeContextScore).substring(0,5));
+				System.out.println(codeContextScore);
+			}
+			codeContextScoreMatrix.add(candidateChangeScores);
+		}
+		return codeContextScoreMatrix;
+	}
+
+	public static double scoreCodeContextOld(Set<AtomicChange> candidateChanges, QueryCodeContext queryCodeContext) {
 		return 0d;
 	}
 
-	public static double scoreOccurences(AtomicChange candidateChange, AtomicChange queryChange) {
+	public static double scoreChangeOccurences(AtomicChange candidateChange, AtomicChange queryChange) {
 		// all occurrences of query change
 		List<Transaction> queryChangeOccurrences = ALL_TRANSACTIONS.stream()
 				.filter(transaction -> transaction.getChangeContex().getAtomicChanges().contains(queryChange))
@@ -75,6 +134,20 @@ public final class ScoringUtility {
 		// union of query changes and candidate changes
 		List<Transaction> allOccurrences = Stream.concat(queryChangeOccurrences.stream(), changeOccurrences.stream()).distinct().collect(Collectors.toList());
 		return Math.log((allOccurrences.size() + 1.0) / (queryChangeOccurrences.size() + 1.0));
+	}
+
+	public static double scoreCodeOccurences(AtomicChange candidateChange, String token) {
+		// all occurrences of query code token
+		List<Transaction> queryCodeOccurrences = ALL_TRANSACTIONS.stream()
+				.filter(transaction -> transaction.getCodeContext().getTokens().contains(token))
+				.collect(Collectors.toList());
+		// all occurrences of candidate change
+		List<Transaction> changeOccurrences = ALL_TRANSACTIONS.stream()
+				.filter(transaction -> transaction.getChangeContex().getAtomicChanges().contains(candidateChange))
+				.collect(Collectors.toList());
+		// union of query changes and candidate changes
+		List<Transaction> allOccurrences = Stream.concat(queryCodeOccurrences.stream(), changeOccurrences.stream()).distinct().collect(Collectors.toList());
+		return Math.log((allOccurrences.size() + 1.0) / (queryCodeOccurrences.size() + 1.0));
 	}
 
 	public static ArrayList<Transaction> getAllTransactions() {
