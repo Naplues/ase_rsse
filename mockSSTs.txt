@@ -1,0 +1,79 @@
+=========== SST ==========SST@-1571855294 {
+   enclosingType = TypeName(MyKidds.Security.ClaimTypes, MyKidds),
+   partialClassIdentifier = null,
+   fields = LinkedHashSet@1617761294 [
+      FieldDeclaration@1617761294 {
+         name = FieldName(static [p:string] [MyKidds.Security.ClaimTypes, MyKidds].UserType),
+      },
+   ],
+   properties = LinkedHashSet@0 [
+   ],
+   methods = {--> LinkedHashSet@0},
+   events = {--> LinkedHashSet@0},
+   delegates = {--> LinkedHashSet@0},
+}=========== SST ==========SST@1025534722 {
+   enclosingType = TypeName(MyKidds.Security.ClaimTypes, MyKidds),
+   partialClassIdentifier = null,
+   fields = LinkedHashSet@685213006 [
+      FieldDeclaration@685213006 {
+         name = FieldName([?] [MyKidds.Security.ClaimTypes, MyKidds].UserType),
+      },
+   ],
+   properties = LinkedHashSet@0 [
+   ],
+   methods = {--> LinkedHashSet@0},
+   events = {--> LinkedHashSet@0},
+   delegates = {--> LinkedHashSet@0},
+}=========== SST ==========SST@-1000518028 {
+   enclosingType = TypeName(MyKidds.Security.ClaimTypes, MyKidds),
+   partialClassIdentifier = null,
+   fields = LinkedHashSet@-715610340 [
+      FieldDeclaration@-715610340 {
+         name = FieldName([p:string] [MyKidds.Security.ClaimTypes, MyKidds].UserType),
+      },
+   ],
+   properties = LinkedHashSet@0 [
+   ],
+   methods = {--> LinkedHashSet@0},
+   events = {--> LinkedHashSet@0},
+   delegates = {--> LinkedHashSet@0},
+}=========== SST ==========SST@1828618400 {
+   enclosingType = TypeName(MyKidds.Security.ClaimTypes, MyKidds),
+   partialClassIdentifier = null,
+   fields = LinkedHashSet@0 [
+   ],
+   properties = {--> LinkedHashSet@0},
+   methods = LinkedHashSet@1461455248 [
+      MethodDeclaration@1461455248 {
+         name = MethodName([p:string] [MyKidds.Security.ClaimTypes, MyKidds].U()),
+         isEntryPoint = false,
+         body = ArrayList@12946817 [
+            ExpressionStatement@12946786 {
+               expression = CompletionExpression@3 {
+                  typeReference = null,
+                  variableReference = null,
+                  token = "",
+               },
+            },
+         ],
+      },
+   ],
+   events = {--> LinkedHashSet@0},
+   delegates = {--> LinkedHashSet@0},
+}=========== SST ==========SST@-1510857616 {
+   enclosingType = TypeName(MyKidds.Security.ClaimTypes, MyKidds),
+   partialClassIdentifier = null,
+   fields = LinkedHashSet@0 [
+   ],
+   properties = {--> LinkedHashSet@0},
+   methods = LinkedHashSet@1900437856 [
+      MethodDeclaration@1900437856 {
+         name = MethodName([?] [?].???()),
+         isEntryPoint = false,
+         body = ArrayList@1 [
+         ],
+      },
+   ],
+   events = {--> LinkedHashSet@0},
+   delegates = {--> LinkedHashSet@0},
+}
