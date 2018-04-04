@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.common.collect.Sets;
 import org.apache.commons.io.FileUtils;
 
 import ase.rsse.apirec.transactions.AtomicChange;
@@ -132,8 +133,11 @@ public final class ScoringUtility {
 				.filter(transaction -> transaction.getChangeContex().getAtomicChanges().contains(candidateChange))
 				.collect(Collectors.toList());
 		// union of query changes and candidate changes
+		List<Transaction> intersect = queryChangeOccurrences.stream()
+				.filter(changeOccurrences::contains)
+				.collect(Collectors.toList());
 		List<Transaction> allOccurrences = Stream.concat(queryChangeOccurrences.stream(), changeOccurrences.stream()).distinct().collect(Collectors.toList());
-		return Math.log((allOccurrences.size() + 1.0) / (queryChangeOccurrences.size() + 1.0));
+		return Math.log((intersect.size() + 1.0) / (queryChangeOccurrences.size() + 1.0));
 	}
 
 	public static double scoreCodeOccurences(AtomicChange candidateChange, String token) {
