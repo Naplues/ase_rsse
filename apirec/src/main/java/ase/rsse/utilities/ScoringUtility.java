@@ -86,8 +86,7 @@ public final class ScoringUtility {
 	}
 
 	public static List<List<String>> scoreCodeContext(Set<AtomicChange> candidateChanges, QueryCodeContext queryCodeContext) {
-		float codeContextScore = (float) 0.000;
-
+		//float codeContextScore = (float) 0.000;
 		List<String> columnQueryChanges = new ArrayList<>();
 		columnQueryChanges.add("Query Context Atomic Tokens");
 		columnQueryChanges.add("============================");
@@ -97,23 +96,27 @@ public final class ScoringUtility {
 					"Type,"+
 					token);
 		});
+                columnQueryChanges.add("===========Final Scores==========");
 		codeContextScoreMatrix = new ArrayList<List<String>>();
 		codeContextScoreMatrix.add(columnQueryChanges);
 		// calculate the score for all candidate changes
 
 		for (AtomicChange candidateChange : candidateChanges) {
+                        float codeContextScoreFinal = (float) 0.000;
 			List<String> candidateChangeScores = new ArrayList<>();
 			candidateChangeScores.add(candidateChange.getLabel());
 			candidateChangeScores.add("===============");
-
-			for (int i=0;i<queryCodeContext.getTokens().size();i++) {
-				double logCoOccurences = scoreCodeOccurences(candidateChange, queryCodeContext.getTokens().get(i));
-				float weightOfScope = queryCodeContext.getWeightOfScope().get(i);
-				float weightOfDataDependency = queryCodeContext.getWeightOfDataDependency().get(i);
-				codeContextScore += (weightOfScope * weightOfDataDependency) / (float) i * logCoOccurences;
-				candidateChangeScores.add(String.format("%.4f", codeContextScore).substring(0,5));
-				System.out.println(codeContextScore);
+			for (String token: queryCodeContext.getTokens()) {
+                                float codeContextScore = (float) 0.000;
+				double logCoOccurences = scoreCodeOccurences(candidateChange, token);
+				float weightOfScope = queryCodeContext.getWeightOfScope().get(queryCodeContext.getTokens().indexOf(token));
+				float weightOfDataDependency = queryCodeContext.getWeightOfDataDependency().get(queryCodeContext.getTokens().indexOf(token));
+                                float dividend = (float) ((float) queryCodeContext.getTokens().indexOf(token)+1 * logCoOccurences);
+				codeContextScore += (weightOfScope * weightOfDataDependency) / dividend;
+                                candidateChangeScores.add(String.format("%.4f", codeContextScore).substring(0,5));
+                                codeContextScoreFinal += codeContextScore;
 			}
+                        candidateChangeScores.add(String.format("%.4f", codeContextScoreFinal).substring(0,5));
 			codeContextScoreMatrix.add(candidateChangeScores);
 		}
 		return codeContextScoreMatrix;
