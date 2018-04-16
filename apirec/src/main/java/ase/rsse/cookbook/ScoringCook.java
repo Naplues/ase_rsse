@@ -46,6 +46,5 @@ public class ScoringCook {
 					scoreCodeContext.get(4).get(i),
 					scoreCodeContext.get(5).get(i));
 		}
-
 	}
 }

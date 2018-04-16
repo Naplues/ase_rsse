@@ -1,1 +1,196 @@
-{"fileName":"testQueryTransaction.json","queryCodeContext":{"weightOfScope":{"0":1.0,"1":1.0,"2":1.0,"3":1.0,"4":1.0,"5":1.0,"6":1.0,"7":1.0,"8":1.0,"9":1.0,"10":1.0},"weightOfDataDependency":{"0":1.0,"1":1.0,"2":1.0,"3":1.0,"4":1.0,"5":1.0,"6":1.0,"7":1.0,"8":1.0,"9":1.0,"10":1.0},"tokens":["results","execute","t","tasks","t","Task","for","HashSet","results","TaskResult","Set"]},"changeContex":{"QueryAtomicChanges":[{"distance":19,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"VariableDeclarationStatement","label":"VariableDeclarationStatement"},{"distance":18,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"ParameterizedType","label":"ParameterizedType"},{"distance":17,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleType","label":"Set"},{"distance":16,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleName","label":"Set"},{"distance":15,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleType","label":"TaskResult"},{"distance":14,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleName","label":"TaskResult"},{"distance":13,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"VariableDeclarationFragement","label":"VariableDeclarationFragement"},{"distance":12,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleName","label":"SimpleName"},{"distance":11,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"ClassInstanceCreation","label":"ClassInstanceCreation"},{"distance":10,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"ParameterizedType","label":"ParameterizedType"},{"distance":9,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleType","label":"HashSet"},{"distance":8,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleName","label":"SimpleName"},{"distance":7,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"ExpressionStatement","label":"ExpressionStatement"},{"distance":6,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"MethodInvocation","label":"add"},{"distance":5,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleName","label":"SimpleName"},{"distance":4,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleName","label":"add"},{"distance":3,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"MethodInvocation","label":"getResult"},{"distance":2,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleName","label":"SimpleName"},{"distance":1,"weightOfDataDependency":1.0,"weihgtOfScope":1.0,"operation":"ADD","nodeType":"SimpleName","label":"getResult"}]}}
+{
+	"fileName": "testQueryTransaction.json",
+	"queryCodeContext": {
+		"weightOfScope": {
+			"0": 1.0,
+			"1": 1.0,
+			"2": 1.0,
+			"3": 1.0,
+			"4": 1.0,
+			"5": 1.0,
+			"6": 1.0,
+			"7": 1.0,
+			"8": 1.0,
+			"9": 1.0,
+			"10": 1.0
+		},
+		"weightOfDataDependency": {
+			"0": 1.0,
+			"1": 1.0,
+			"2": 1.0,
+			"3": 1.0,
+			"4": 1.0,
+			"5": 1.0,
+			"6": 1.0,
+			"7": 1.0,
+			"8": 1.0,
+			"9": 1.0,
+			"10": 1.0
+		},
+		"tokens": ["results",
+		"execute",
+		"t",
+		"tasks",
+		"t",
+		"Task",
+		"for",
+		"HashSet",
+		"results",
+		"TaskResult",
+		"Set"]
+	},
+	"changeContex": {
+		"QueryAtomicChanges": [{
+			"distance": 19,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "VariableDeclarationStatement",
+			"label": "VariableDeclarationStatement"
+		},
+		{
+			"distance": 18,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "ParameterizedType",
+			"label": "ParameterizedType"
+		},
+		{
+			"distance": 17,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleType",
+			"label": "Set"
+		},
+		{
+			"distance": 16,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleName",
+			"label": "Set"
+		},
+		{
+			"distance": 15,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleType",
+			"label": "TaskResult"
+		},
+		{
+			"distance": 14,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleName",
+			"label": "TaskResult"
+		},
+		{
+			"distance": 13,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "VariableDeclarationFragement",
+			"label": "VariableDeclarationFragement"
+		},
+		{
+			"distance": 12,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleName",
+			"label": "SimpleName"
+		},
+		{
+			"distance": 11,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "ClassInstanceCreation",
+			"label": "ClassInstanceCreation"
+		},
+		{
+			"distance": 10,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "ParameterizedType",
+			"label": "ParameterizedType"
+		},
+		{
+			"distance": 9,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleType",
+			"label": "HashSet"
+		},
+		{
+			"distance": 8,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleName",
+			"label": "SimpleName"
+		},
+		{
+			"distance": 7,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "ExpressionStatement",
+			"label": "ExpressionStatement"
+		},
+		{
+			"distance": 6,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "MethodInvocation",
+			"label": "add"
+		},
+		{
+			"distance": 5,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleName",
+			"label": "SimpleName"
+		},
+		{
+			"distance": 4,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleName",
+			"label": "add"
+		},
+		{
+			"distance": 3,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "MethodInvocation",
+			"label": "getResult"
+		},
+		{
+			"distance": 2,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleName",
+			"label": "SimpleName"
+		},
+		{
+			"distance": 1,
+			"weightOfDataDependency": 1.0,
+			"weihgtOfScope": 1.0,
+			"operation": "ADD",
+			"nodeType": "SimpleName",
+			"label": "getResult"
+		}]
+	}
+}

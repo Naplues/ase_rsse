@@ -311,12 +311,12 @@ public final class MockDataUtility {
 				.withLabel("clear");
 		AtomicChange at8 = new AtomicChange()
 				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleName)
+				.withNodeType(NodeType.SimpleType)
 				.withLabel("TaskResult");
 		chctx5.addAtomicChange(at1); 
-		chctx5.addAtomicChange(at3); 
-		chctx5.addAtomicChange(at7);
 		chctx5.addAtomicChange(at8);
+		chctx5.addAtomicChange(at7);
+		chctx5.addAtomicChange(at4);
 		coctx5.addToken("DoesStillNotExist");
 		Transaction t5 = new Transaction()
 				.withChangeContext(chctx5)
