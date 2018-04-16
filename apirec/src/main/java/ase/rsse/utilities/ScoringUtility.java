@@ -111,8 +111,8 @@ public final class ScoringUtility {
 				double logCoOccurences = scoreCodeOccurences(candidateChange, token);
 				float weightOfScope = queryCodeContext.getWeightOfScope().get(queryCodeContext.getTokens().indexOf(token));
 				float weightOfDataDependency = queryCodeContext.getWeightOfDataDependency().get(queryCodeContext.getTokens().indexOf(token));
-                                float dividend = (float) ((float) queryCodeContext.getTokens().indexOf(token)+1 * logCoOccurences);
-				codeContextScore += (weightOfScope * weightOfDataDependency) / dividend;
+                                float dividend = (float) ((float) queryCodeContext.getTokens().indexOf(token)+1);
+                   		codeContextScore += (weightOfScope * weightOfDataDependency) / dividend * logCoOccurences;
                                 candidateChangeScores.add(String.format("%.4f", codeContextScore).substring(0,5));
                                 codeContextScoreFinal += codeContextScore;
 			}
