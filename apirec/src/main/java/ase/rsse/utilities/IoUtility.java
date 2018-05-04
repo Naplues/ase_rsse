@@ -70,4 +70,11 @@ public final class IoUtility {
 				&& file.getName().endsWith(".json")
 				&& !file.getName().startsWith("test"));
 	}
+	
+	public static void deleteTransactionFile(String fileName) throws IOException {
+		File file = new File(ITransactionConstants.TRANSACTION_DIRECTORY, fileName);
+		if (!file.delete()) {
+			System.out.println("Could not delete: " + file.getAbsolutePath());
+		}
+	}
 }

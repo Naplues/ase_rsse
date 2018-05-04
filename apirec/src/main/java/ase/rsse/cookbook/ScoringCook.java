@@ -1,6 +1,7 @@
 package ase.rsse.cookbook;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -23,19 +24,10 @@ public class ScoringCook {
 		Set<AtomicChange> allCandidateChanges = ScoringUtility.getAllCandidateChanges(MockDataUtility.QUERY_CHANGE_CONTEXT,
 				MockDataUtility.QUERY_CODE_CONTEXT);
 
-		List<List<String>> scoreChangeContext = ScoringUtility.scoreChangeContext(allCandidateChanges, MockDataUtility.QUERY_CHANGE_CONTEXT);
+		HashMap<String, Double> scoreChangeContext = ScoringUtility.scoreChangeContext(allCandidateChanges, MockDataUtility.QUERY_CHANGE_CONTEXT);
 		List<List<String>> scoreCodeContext = ScoringUtility.scoreCodeContext(allCandidateChanges, MockDataUtility.QUERY_CODE_CONTEXT);
 
 		// Print Change Context Score Matrix
-		System.out.printf("%150s","---------- Change Context Scores ----------\n");
-		for (int i = 0 ; i < scoreChangeContext.get(0).size(); i++) {
-			System.out.printf("%80s\t%15s\t%15s\t%15s\t%15s\t%15s\n", scoreChangeContext.get(0).get(i),
-					scoreChangeContext.get(1).get(i),
-					scoreChangeContext.get(2).get(i),
-					scoreChangeContext.get(3).get(i),
-					scoreChangeContext.get(4).get(i),
-					scoreChangeContext.get(5).get(i));
-		}
 
 		System.out.printf("%150s","---------- Code Context Scores ----------\n");
 		for (int i = 0 ; i < scoreCodeContext.get(0).size(); i++) {

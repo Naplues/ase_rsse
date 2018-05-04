@@ -16,6 +16,8 @@ import ase.rsse.apirec.transactions.Transaction;
 
 public final class MockDataUtility {
 	
+	public static String TEST_QUERY_TRANSACTION = "testQueryTransaction.json";
+	public static ArrayList<String> MOCK_TRANSACTIONS = new ArrayList<>();
 	public static QueryChangeContext QUERY_CHANGE_CONTEXT = new QueryChangeContext();
 	public static QueryCodeContext QUERY_CODE_CONTEXT = new QueryCodeContext();
 
@@ -25,174 +27,49 @@ public final class MockDataUtility {
 		
 		QueryAtomicChange c1 = new QueryAtomicChange()
 				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.VariableDeclarationStatement)
-				.withLabel("VariableDeclarationStatement")
-				.withDistance(19)
+				.withNodeType(NodeType.MethodInvocation)
+				.withLabel("remove")
+				.withDistance(1)
 				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);	
+				.withWeightOfScope(1f);
 		queryChanges.add(c1);
 		
 		QueryAtomicChange c2 = new QueryAtomicChange()
 				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.ParameterizedType)
-				.withLabel("ParameterizedType")
-				.withDistance(18)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c2);
-		
-		QueryAtomicChange c3 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleType)
-				.withLabel("Set")
-				.withDistance(17)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c3);
-		
-		QueryAtomicChange c4 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleName)
-				.withLabel("Set")
-				.withDistance(16)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c4);
-		
-		QueryAtomicChange c5 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleType)
-				.withLabel("TaskResult")
-				.withDistance(15)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c5);
-		
-		QueryAtomicChange c6 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleName)
-				.withLabel("TaskResult")
-				.withDistance(14)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c6);
-
-		QueryAtomicChange c7 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.VariableDeclarationFragement)
-				.withLabel("VariableDeclarationFragement")
-				.withDistance(13)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c7);
-
-		QueryAtomicChange c8 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleName)
-				.withLabel("SimpleName")
-				.withDistance(12)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c8);
-
-		QueryAtomicChange c9 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.ClassInstanceCreation)
-				.withLabel("ClassInstanceCreation")
-				.withDistance(11)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c9);
-
-		QueryAtomicChange c10 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.ParameterizedType)
-				.withLabel("ParameterizedType")
-				.withDistance(10)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c10);
-
-		QueryAtomicChange c11 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleType)
-				.withLabel("HashSet")
-				.withDistance(9)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c11);
-		
-		QueryAtomicChange c12 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleName)
-				.withLabel("SimpleName")
-				.withDistance(8)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c12);
-
-		QueryAtomicChange c13 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.ExpressionStatement)
-				.withLabel("ExpressionStatement")
-				.withDistance(7)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c13);
-
-		QueryAtomicChange c14 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("add")
-				.withDistance(6)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c14);
-
-		QueryAtomicChange c15 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleName)
-				.withLabel("SimpleName")
-				.withDistance(5)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c15);
-
-		QueryAtomicChange c16 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleName)
-				.withLabel("add")
-				.withDistance(4)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c16);
-		
-		QueryAtomicChange c17 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.MethodInvocation)
-				.withLabel("getResult")
-				.withDistance(3)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c17);
-		
-		QueryAtomicChange c18 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleName)
-				.withLabel("SimpleName")
-				.withDistance(2)
-				.withWeightOfDataDependency(1f)
-				.withWeightOfScope(1f);
-		queryChanges.add(c18);
-
-		QueryAtomicChange c19 = new QueryAtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleName)
-				.withLabel("getResult")
 				.withDistance(1)
 				.withWeightOfDataDependency(1f)
 				.withWeightOfScope(1f);
-		queryChanges.add(c19);
+		queryChanges.add(c2);
+
+		QueryAtomicChange c3 = new QueryAtomicChange()
+				.withOperation(Operation.ADD)
+				.withNodeType(NodeType.MethodInvocation)
+				.withLabel("addAll")
+				.withDistance(1)
+				.withWeightOfDataDependency(1f)
+				.withWeightOfScope(1f);
+		queryChanges.add(c3);
+
+		QueryAtomicChange c4 = new QueryAtomicChange()
+				.withOperation(Operation.ADD)
+				.withNodeType(NodeType.MethodInvocation)
+				.withLabel("contains")
+				.withDistance(1)
+				.withWeightOfDataDependency(1f)
+				.withWeightOfScope(1f);
+		queryChanges.add(c4);
+
+		
+		QueryAtomicChange c5 = new QueryAtomicChange()
+				.withOperation(Operation.ADD)
+				.withNodeType(NodeType.MethodInvocation)
+				.withLabel("clear")
+				.withDistance(1)
+				.withWeightOfDataDependency(1f)
+				.withWeightOfScope(1f);
+		queryChanges.add(c5);
 		
 		QUERY_CHANGE_CONTEXT.addAllQueryAtomicChanges(queryChanges);
 		
@@ -217,7 +94,7 @@ public final class MockDataUtility {
 		}
 		
 		QueryTransaction queryTransaction = new QueryTransaction()
-				.withFileName("testQueryTransaction.json")
+				.withFileName(TEST_QUERY_TRANSACTION)
 				.withQueryChangeContext(QUERY_CHANGE_CONTEXT)
 				.withQueryCodeContext(QUERY_CODE_CONTEXT);
 		
@@ -239,16 +116,10 @@ public final class MockDataUtility {
 		CodeContext coctx1 = new CodeContext();
 		AtomicChange at1 = new AtomicChange()
 				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.VariableDeclarationStatement)
-				.withLabel("VariableDeclarationStatement");
-
-		AtomicChange at2 = new AtomicChange()
-				.withOperation(Operation.ADD)
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("add");
-		coctx1.addToken("randomToken");
 		chctx1.addAtomicChange(at1);
-		chctx1.addAtomicChange(at2);
+
 		Transaction t1 = new Transaction()
 				.withChangeContext(chctx1)
 				.withCodeContext(coctx1);
@@ -257,12 +128,12 @@ public final class MockDataUtility {
 		// mock 2 -> we expect remove as candidate
 		ChangeContext chctx2 = new ChangeContext();
 		CodeContext coctx2 = new CodeContext();
-		AtomicChange at3 = new AtomicChange()
+		AtomicChange at2 = new AtomicChange()
 				.withOperation(Operation.ADD)
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("remove");
-		chctx2.addAtomicChange(at3);
-		coctx2.addToken("for");
+		chctx2.addAtomicChange(at2);
+		
 		Transaction t2 = new Transaction()
 				.withChangeContext(chctx2)
 				.withCodeContext(coctx2);
@@ -271,18 +142,11 @@ public final class MockDataUtility {
 		// mock 3 -> we expect contains as candidate
 		ChangeContext chctx3 = new ChangeContext();
 		CodeContext coctx3 = new CodeContext();
-		AtomicChange at4 = new AtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleType)
-				.withLabel("Set");
-		AtomicChange at5 = new AtomicChange()
+		AtomicChange at3 = new AtomicChange()
 				.withOperation(Operation.ADD)
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("contains");
-		chctx3.addAtomicChange(at1);
-		chctx3.addAtomicChange(at4);
-		chctx3.addAtomicChange(at5);
-		coctx3.addToken("doesNotExist");
+		chctx3.addAtomicChange(at3);
 		Transaction t3 = new Transaction()
 				.withChangeContext(chctx3)
 				.withCodeContext(coctx3);
@@ -291,12 +155,11 @@ public final class MockDataUtility {
 		// mock 4 -> we expect addAll as candidate
 		ChangeContext chctx4 = new ChangeContext();
 		CodeContext coctx4 = new CodeContext();
-		AtomicChange at6 = new AtomicChange()
+		AtomicChange at4 = new AtomicChange()
 				.withOperation(Operation.ADD)
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("addAll");
-		chctx4.addAtomicChange(at6);
-		coctx4.addToken("Task");
+		chctx4.addAtomicChange(at4);
 		Transaction t4 = new Transaction()
 				.withChangeContext(chctx4)
 				.withCodeContext(coctx4);
@@ -305,19 +168,11 @@ public final class MockDataUtility {
 		// mock 5 -> we expect clear as candidate
 		ChangeContext chctx5 = new ChangeContext();
 		CodeContext coctx5 = new CodeContext();
-		AtomicChange at7 = new AtomicChange()
+		AtomicChange at5 = new AtomicChange()
 				.withOperation(Operation.ADD)
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("clear");
-		AtomicChange at8 = new AtomicChange()
-				.withOperation(Operation.ADD)
-				.withNodeType(NodeType.SimpleType)
-				.withLabel("TaskResult");
-		chctx5.addAtomicChange(at1); 
-		chctx5.addAtomicChange(at8);
-		chctx5.addAtomicChange(at7);
-		chctx5.addAtomicChange(at4);
-		coctx5.addToken("DoesStillNotExist");
+		chctx5.addAtomicChange(at5);
 		Transaction t5 = new Transaction()
 				.withChangeContext(chctx5)
 				.withCodeContext(coctx5);
@@ -327,7 +182,9 @@ public final class MockDataUtility {
 			int i = 1;
 			for (Transaction ts : mockTransactions) {
 				String json = JsonUtility.toJson(ts);
-				IoUtility.writeTransactionToFile("mockTransaction_" + i + ".json", json);
+				String fileName = "mockTransaction_" + i + ".json";
+				IoUtility.writeTransactionToFile(fileName, json);
+				MOCK_TRANSACTIONS.add(fileName);
 				i++;
 			}
 		} catch (IOException e) {

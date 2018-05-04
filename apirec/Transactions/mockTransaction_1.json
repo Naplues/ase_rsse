@@ -1,1 +1,0 @@
-{"codeContext":{"tokens":["randomToken"]},"changeContex":{"atomicChanges":[{"operation":"ADD","nodeType":"VariableDeclarationStatement","label":"VariableDeclarationStatement"},{"operation":"ADD","nodeType":"MethodInvocation","label":"add"}]}}
