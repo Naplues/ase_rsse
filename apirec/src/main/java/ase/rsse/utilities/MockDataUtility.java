@@ -78,17 +78,11 @@ public final class MockDataUtility {
 		queryTokens.add("execute");
 		queryTokens.add("t");
 		queryTokens.add("tasks");
-		queryTokens.add("t");
-		queryTokens.add("Task");
 		queryTokens.add("for");
-		queryTokens.add("HashSet");
-		queryTokens.add("results");
-		queryTokens.add("TaskResult");
-		queryTokens.add("Set");
 		
 		QUERY_CODE_CONTEXT.addTokens(queryTokens);
 
-		for (int i=0;i<queryTokens.size();i++) {
+		for (int i=0; i<queryTokens.size(); i++) {
 			QUERY_CODE_CONTEXT.addWeightOfDataDependency(i, 1);;
 			QUERY_CODE_CONTEXT.addWeightOfScope(i, 1);;
 		}
@@ -119,6 +113,8 @@ public final class MockDataUtility {
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("add");
 		chctx1.addAtomicChange(at1);
+		coctx1.addToken("results");
+		coctx1.addToken("add");
 
 		Transaction t1 = new Transaction()
 				.withChangeContext(chctx1)
@@ -133,6 +129,8 @@ public final class MockDataUtility {
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("remove");
 		chctx2.addAtomicChange(at2);
+		coctx2.addToken("execute");
+		coctx2.addToken("remove");
 		
 		Transaction t2 = new Transaction()
 				.withChangeContext(chctx2)
@@ -147,6 +145,9 @@ public final class MockDataUtility {
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("contains");
 		chctx3.addAtomicChange(at3);
+		coctx3.addToken("t");
+		coctx3.addToken("contains");
+		
 		Transaction t3 = new Transaction()
 				.withChangeContext(chctx3)
 				.withCodeContext(coctx3);
@@ -160,6 +161,9 @@ public final class MockDataUtility {
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("addAll");
 		chctx4.addAtomicChange(at4);
+		coctx4.addToken("tasks");
+		coctx4.addToken("addAll");
+		
 		Transaction t4 = new Transaction()
 				.withChangeContext(chctx4)
 				.withCodeContext(coctx4);
@@ -173,10 +177,14 @@ public final class MockDataUtility {
 				.withNodeType(NodeType.MethodInvocation)
 				.withLabel("clear");
 		chctx5.addAtomicChange(at5);
+		coctx5.addToken("for");
+		coctx5.addToken("clear");
+		
 		Transaction t5 = new Transaction()
 				.withChangeContext(chctx5)
 				.withCodeContext(coctx5);
 		mockTransactions.add(t5);
+		
 		
 		try {
 			int i = 1;

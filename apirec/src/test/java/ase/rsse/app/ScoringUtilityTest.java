@@ -44,8 +44,7 @@ public class ScoringUtilityTest {
 	@Test
 	public void testScoreChangeContext() {
 		ArrayList<Transaction> allTransactions = ScoringUtility.getAllTransactions();
-		Set<AtomicChange> allCandidateChanges = ScoringUtility.getAllCandidateChanges(MockDataUtility.QUERY_CHANGE_CONTEXT,
-				MockDataUtility.QUERY_CODE_CONTEXT);
+		Set<AtomicChange> allCandidateChanges = ScoringUtility.getAllCandidateChanges(MockDataUtility.QUERY_CHANGE_CONTEXT,	MockDataUtility.QUERY_CODE_CONTEXT);
 		
 		Assert.assertEquals(5, allTransactions.size());
 		Assert.assertEquals(5, allCandidateChanges.size());
@@ -61,6 +60,18 @@ public class ScoringUtilityTest {
 	
 	@Test
 	public void testScoreCodeContext() {
+		ArrayList<Transaction> allTransactions = ScoringUtility.getAllTransactions();
+		Set<AtomicChange> allCandidateChanges = ScoringUtility.getAllCandidateChanges(MockDataUtility.QUERY_CHANGE_CONTEXT,	MockDataUtility.QUERY_CODE_CONTEXT);
+
+		Assert.assertEquals(5, allTransactions.size());
+		Assert.assertEquals(5, allCandidateChanges.size());
 		
+		HashMap<String,Double> codeContextScores = ScoringUtility.scoreCodeContext(allCandidateChanges, MockDataUtility.QUERY_CODE_CONTEXT);
+		
+		Assert.assertEquals(0.2, codeContextScores.get("add"), 0.01);
+		Assert.assertEquals(0.06666666865348816, codeContextScores.get("contains"), 0.01);
+		Assert.assertEquals(0.05, codeContextScores.get("addAll"), 0.01);
+		Assert.assertEquals(0.04000000059604645, codeContextScores.get("clear"), 0.01);
+		Assert.assertEquals(0.1, codeContextScores.get("remove"), 0.01);
 	}
 }

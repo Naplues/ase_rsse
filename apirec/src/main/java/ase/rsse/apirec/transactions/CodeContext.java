@@ -3,7 +3,6 @@ package ase.rsse.apirec.transactions;
 import java.util.ArrayList;
 import java.util.Collections;
 
-// use all tokens of previous SST
 public class CodeContext {
 	
 	protected ArrayList<String> tokens;

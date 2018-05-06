@@ -17,8 +17,8 @@ public class QueryCodeContext extends CodeContext {
 		return tokens.indexOf(token);
 	}
 
-	public HashMap<Integer, Float> getWeightOfScope() {
-		return weightOfScope;
+	public Float getWeightOfScope(int distance) {
+		return weightOfScope.get(distance);
 	}
 
 	public void setWeightOfScope(HashMap<Integer, Float> weightOfScope) {
@@ -29,15 +29,15 @@ public class QueryCodeContext extends CodeContext {
 		this.weightOfScope.put(token, weightOfScope);
 	}
 
-	public HashMap<Integer, Float> getWeightOfDataDependency() {
-		return weightOfDataDependency;
+	public Float getWeightOfDataDependency(int distance) {
+		return weightOfDataDependency.get(distance);
 	}
 
 	public void setWeightOfDataDependency(HashMap<Integer, Float> weightOfDataDependency) {
 		this.weightOfDataDependency = weightOfDataDependency;
 	}
 	
-	public void addWeightOfDataDependency(Integer token, float weightOfDataDependency) {
-		this.weightOfDataDependency.put(token, weightOfDataDependency);
+	public void addWeightOfDataDependency(Integer distanceOfToken, float weightOfDataDependency) {
+		this.weightOfDataDependency.put(distanceOfToken, weightOfDataDependency);
 	}
 }
