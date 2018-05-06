@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 
-import ase.rsse.apirec.transactions.AtomicChange;
 import ase.rsse.apirec.transactions.NodeType;
 import ase.rsse.apirec.transactions.Operation;
-import ase.rsse.apirec.transactions.QueryAtomicChange;
-import ase.rsse.apirec.transactions.QueryChangeContext;
-import ase.rsse.apirec.transactions.QueryCodeContext;
 import ase.rsse.apirec.transactions.Transaction;
+import ase.rsse.apirec.transactions.changecontext.AtomicChange;
+import ase.rsse.apirec.transactions.query.QueryAtomicChange;
+import ase.rsse.apirec.transactions.query.QueryChangeContext;
+import ase.rsse.apirec.transactions.query.QueryCodeContext;
 
 public final class ScoringUtility {
 	public static ArrayList<Transaction> ALL_TRANSACTIONS = getAllTransactions();
@@ -138,9 +138,6 @@ public final class ScoringUtility {
 	}
 
 	private static List<Transaction> getTransactionsWithToken(String queryToken) {
-//		for (Transaction t: ALL_TRANSACTIONS) {
-//			System.out.println(t.getCodeContext().getTokens());
-//		}
 		return ALL_TRANSACTIONS.stream()
 				.filter(transaction -> transaction.getCodeContext().getTokens().contains(queryToken))
 				.collect(Collectors.toList());

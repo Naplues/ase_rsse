@@ -1,11 +1,13 @@
-package ase.rsse.apirec.transactions;
+package ase.rsse.apirec.transactions.changecontext;
 
 import com.google.common.base.Objects;
+
+import ase.rsse.apirec.transactions.NodeType;
+import ase.rsse.apirec.transactions.Operation;
 
 public class AtomicChange {
 	private Operation operation;
 	private NodeType nodeType;
-	// only used for the following AST types: method invocation, simple type, simple name, boolean constants, null value
 	private String label;
 	
 	public AtomicChange() {

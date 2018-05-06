@@ -1,4 +1,8 @@
-package ase.rsse.apirec.transactions;
+package ase.rsse.apirec.transactions.query;
+
+import ase.rsse.apirec.transactions.NodeType;
+import ase.rsse.apirec.transactions.Operation;
+import ase.rsse.apirec.transactions.changecontext.AtomicChange;
 
 public class QueryAtomicChange extends AtomicChange {
 	

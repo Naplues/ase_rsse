@@ -1,18 +1,20 @@
-package ase.rsse.utilities;
+package ase.rsse.app;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import ase.rsse.apirec.transactions.AtomicChange;
-import ase.rsse.apirec.transactions.ChangeContext;
-import ase.rsse.apirec.transactions.CodeContext;
 import ase.rsse.apirec.transactions.NodeType;
 import ase.rsse.apirec.transactions.Operation;
-import ase.rsse.apirec.transactions.QueryAtomicChange;
-import ase.rsse.apirec.transactions.QueryChangeContext;
-import ase.rsse.apirec.transactions.QueryCodeContext;
-import ase.rsse.apirec.transactions.QueryTransaction;
 import ase.rsse.apirec.transactions.Transaction;
+import ase.rsse.apirec.transactions.changecontext.AtomicChange;
+import ase.rsse.apirec.transactions.changecontext.ChangeContext;
+import ase.rsse.apirec.transactions.codecontext.CodeContext;
+import ase.rsse.apirec.transactions.query.QueryAtomicChange;
+import ase.rsse.apirec.transactions.query.QueryChangeContext;
+import ase.rsse.apirec.transactions.query.QueryCodeContext;
+import ase.rsse.apirec.transactions.query.QueryTransaction;
+import ase.rsse.utilities.IoUtility;
+import ase.rsse.utilities.JsonUtility;
 
 public final class MockDataUtility {
 	

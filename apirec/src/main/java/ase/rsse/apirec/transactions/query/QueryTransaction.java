@@ -1,4 +1,4 @@
-package ase.rsse.apirec.transactions;
+package ase.rsse.apirec.transactions.query;
 
 public class QueryTransaction {
 	

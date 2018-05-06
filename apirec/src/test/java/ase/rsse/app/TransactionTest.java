@@ -10,10 +10,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ase.rsse.apirec.transactions.ChangeContext;
-import ase.rsse.apirec.transactions.CodeContext;
 import ase.rsse.apirec.transactions.ITransactionConstants;
 import ase.rsse.apirec.transactions.Transaction;
+import ase.rsse.apirec.transactions.changecontext.ChangeContext;
+import ase.rsse.apirec.transactions.codecontext.CodeContext;
 import ase.rsse.utilities.IoUtility;
 import ase.rsse.utilities.JsonUtility;
 

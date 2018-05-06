@@ -11,10 +11,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ase.rsse.apirec.transactions.AtomicChange;
 import ase.rsse.apirec.transactions.Transaction;
+import ase.rsse.apirec.transactions.changecontext.AtomicChange;
 import ase.rsse.utilities.IoUtility;
-import ase.rsse.utilities.MockDataUtility;
 import ase.rsse.utilities.ScoringUtility;
 
 public class ScoringUtilityTest {

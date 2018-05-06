@@ -1,5 +1,8 @@
 package ase.rsse.apirec.transactions;
 
+import ase.rsse.apirec.transactions.changecontext.ChangeContext;
+import ase.rsse.apirec.transactions.codecontext.CodeContext;
+
 public class Transaction {
 	
 	private String fileName;

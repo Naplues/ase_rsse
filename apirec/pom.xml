@@ -133,7 +133,6 @@
 									<excludes>
 										<exclude>*Test</exclude>
 										<exclude>*Cook</exclude>
-										<exclude>*Utility</exclude>
 									</excludes>
 									<limits>
 										<limit>
