@@ -29,8 +29,8 @@ public final class ScoringUtility {
 			QueryCodeContext queryCodeContext) {
 		HashSet<AtomicChange> candidateChanges = new HashSet<>();
 
-		Set<Transaction> candidateTransactions = ALL_TRANSACTIONS.stream().filter(transaction -> !Collections
-				.disjoint(transaction.getChangeContex().getAtomicChanges(), queryChangeContext.getQueryAtomicChanges())
+		Set<Transaction> candidateTransactions = ALL_TRANSACTIONS.stream()
+				.filter(transaction -> !Collections.disjoint(transaction.getChangeContex().getAtomicChanges(), queryChangeContext.getQueryAtomicChanges())
 				|| !Collections.disjoint(transaction.getCodeContext().getTokens(), queryCodeContext.getTokens()))
 				.collect(Collectors.toSet());
 
