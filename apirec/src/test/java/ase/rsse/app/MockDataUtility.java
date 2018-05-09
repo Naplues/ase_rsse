@@ -2,6 +2,7 @@ package ase.rsse.app;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import ase.rsse.apirec.transactions.NodeType;
 import ase.rsse.apirec.transactions.Operation;
@@ -75,12 +76,12 @@ public final class MockDataUtility {
 		
 		QUERY_CHANGE_CONTEXT.addAllQueryAtomicChanges(queryChanges);
 		
-		ArrayList<String> queryTokens = new ArrayList<>();
+		HashSet<String> queryTokens = new HashSet<>();
 		queryTokens.add("results");
 		queryTokens.add("execute");
 		queryTokens.add("t");
 		queryTokens.add("tasks");
-		queryTokens.add("for");
+		queryTokens.add("for"); 
 		
 		QUERY_CODE_CONTEXT.addTokens(queryTokens);
 

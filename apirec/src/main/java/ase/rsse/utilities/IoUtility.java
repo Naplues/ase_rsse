@@ -48,8 +48,7 @@ public final class IoUtility {
 	}
 
 	public static void writeTransactionToFile(String fileName, String json) throws IOException {
-		// create file within Transactions folder
-		File file = new File(ITransactionConstants.TRANSACTION_DIRECTORY, fileName);
+		File file = new File(ITransactionConstants.TRANSACTION_DIRECTORY, fileName + ".json");
 		FileUtils.writeStringToFile(file, json);
 	}
 

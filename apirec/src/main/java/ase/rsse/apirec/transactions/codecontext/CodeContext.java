@@ -1,21 +1,21 @@
 package ase.rsse.apirec.transactions.codecontext;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class CodeContext {
 	
-	protected ArrayList<String> tokens;
+	protected HashSet<String> tokens;
 
 	public CodeContext() {
-		tokens = new ArrayList<>();
+		tokens = new HashSet<>();
 	}
 
-	public ArrayList<String> getTokens() {
+	public HashSet<String> getTokens() {
 		return tokens;
 	}
 	
-	public void setTokens(ArrayList<String> tokens) {
+	public void setTokens(HashSet<String> tokens) {
 		this.tokens = tokens;
 	}
 
@@ -23,7 +23,7 @@ public class CodeContext {
 		tokens.add(token);
 	}
 	
-	public void addTokens(ArrayList<String> tokens) {
+	public void addTokens(HashSet<String> tokens) {
 		this.tokens.addAll(tokens);
 	}
 	
@@ -31,7 +31,7 @@ public class CodeContext {
 		return tokens.contains(token);
 	}
 	
-	public boolean containsAny(ArrayList<String> tokens) {
+	public boolean containsAny(HashSet<String> tokens) {
 		return !Collections.disjoint(this.tokens, tokens);
 	}
 }

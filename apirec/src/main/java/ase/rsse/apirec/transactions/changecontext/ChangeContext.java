@@ -1,20 +1,21 @@
 package ase.rsse.apirec.transactions.changecontext;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ChangeContext {
 	
-	private ArrayList<AtomicChange> atomicChanges;
+	private HashSet<AtomicChange> atomicChanges;
 	
 	public ChangeContext() {
-		atomicChanges = new ArrayList<>();
+		atomicChanges = new HashSet<>();
 	}
 
-	public ArrayList<AtomicChange> getAtomicChanges() {
+	public HashSet<AtomicChange> getAtomicChanges() {
 		return atomicChanges;
 	}
 
-	public void setAtomicChanges(ArrayList<AtomicChange> atomicChanges) {
+	public void setAtomicChanges(HashSet<AtomicChange> atomicChanges) {
 		this.atomicChanges = atomicChanges;
 	}
 	

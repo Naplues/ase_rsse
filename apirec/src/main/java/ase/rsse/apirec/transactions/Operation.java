@@ -4,5 +4,5 @@ public enum Operation {
 	ADD,
 	CHANGE,
 	DELETE,
-	MOVE
+	NOP
 }

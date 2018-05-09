@@ -16,7 +16,7 @@ public class QueryCodeContext extends CodeContext {
 	}
 
 	public int getDistance(String token) {
-		return tokens.indexOf(token);
+		return 1;
 	}
 
 	public Float getWeightOfScope(int distance) {
