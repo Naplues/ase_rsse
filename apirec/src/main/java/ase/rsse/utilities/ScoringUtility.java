@@ -78,11 +78,7 @@ public final class ScoringUtility {
 			return 0;
 		}
 
-		float weightOfScope = queryChange.getWeihgtOfScope();
-		float weightOfDataDependency = queryChange.getWeightOfDataDependency();
-		float distance = queryChange.getDistance();
-
-		return ((weightOfScope * weightOfDataDependency) / distance) * ((double) numberOfCoOccurences.size() / (queryChangeOccurrences.size()));
+		return (double) numberOfCoOccurences.size() / (queryChangeOccurrences.size());
 	}
 
 	private static List<Transaction> getTransactionsWithQueryChangeOccurrence(QueryAtomicChange queryChange) {
@@ -99,9 +95,6 @@ public final class ScoringUtility {
 
 	public static double scoreCodeOccurences(AtomicChange candidateChange, QueryCodeContext queryCodeContext) {
 		double codeContextScore = 0.0;
-		int distance;
-		float weightOfScope;
-		float weightOfDataDependency;
 		
 		for (String token: queryCodeContext.getTokens()) {
 			List<Transaction> queryCodeOccurrences = getTransactionsWithToken(token);
@@ -112,11 +105,7 @@ public final class ScoringUtility {
 					.collect(Collectors.toList()).size();
 			
 			if (numberOfCoOccurences != 0) {
-				distance = queryCodeContext.getDistance(token);
-				weightOfDataDependency = queryCodeContext.getWeightOfDataDependency(distance);
-				weightOfScope = queryCodeContext.getWeightOfScope(distance);
-				
-				codeContextScore = ((weightOfScope * weightOfDataDependency) / (distance + 1)) * ((double) numberOfCoOccurences / (queryCodeOccurrences.size()));
+				codeContextScore = ((double) numberOfCoOccurences / (queryCodeOccurrences.size()));
 			}
 		}
 		return codeContextScore / queryCodeContext.getTokens().size();
@@ -125,11 +114,14 @@ public final class ScoringUtility {
 	public static ArrayList<Transaction> getAllTransactions() {
 		File[] allFiles = IoUtility.findAllTransactions();
 		ArrayList<Transaction> allTransactions = new ArrayList<>();
+		int counter = 0;
 		for (File file : allFiles) {
 			try {
 				String string = FileUtils.readFileToString(file);
 				Transaction transaction = JsonUtility.fromJson(string);
 				allTransactions.add(transaction);
+				System.out.println(counter);
+				counter++;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
