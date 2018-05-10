@@ -3,16 +3,24 @@ package ase.rsse.utilities;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.AbstractFileFilter;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import ase.rsse.apirec.transactions.ITransactionConstants;
 import cc.kave.commons.model.events.IIDEEvent;
 import cc.kave.commons.model.events.completionevents.Context;
+import cc.kave.commons.model.events.completionevents.ICompletionEvent;
 import cc.kave.commons.utils.io.IReadingArchive;
 import cc.kave.commons.utils.io.ReadingArchive;
 
@@ -33,12 +41,44 @@ public final class IoUtility {
 		return res;
 	}
 
-	public static List<IIDEEvent> readEvent(String pathToEvent) {
-		LinkedList<IIDEEvent> res = Lists.newLinkedList();
+	public static List<ICompletionEvent> readEvent(String pathToEvent) {
+		LinkedList<ICompletionEvent> res = Lists.newLinkedList();
 		try {
 			IReadingArchive ra = new ReadingArchive(new File(pathToEvent));
-			while (ra.hasNext()) {
+			int counter = 0;
+			while (ra.hasNext() && counter < 10000) {
+				IIDEEvent next = ra.getNext(IIDEEvent.class);
+				if (next instanceof ICompletionEvent) {
+					res.add((ICompletionEvent) next);
+					counter++;
+					if (counter % 500 == 0) {
+						System.out.println(counter);
+					}
+					
+				}
+			}
+			ra.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	public static int getEventDataSize(String pathToEvent) {
+		ReadingArchive ra = new ReadingArchive(new File(pathToEvent));
+		int size = ra.getNumberOfEntries();
+		ra.close();
+		return size;
+	}
+
+	public static List<IIDEEvent> readEventChunk(String pathToEvent, int chunkSize) {
+		LinkedList<IIDEEvent> res = Lists.newLinkedList();
+		try {
+			int counter = 0;
+			IReadingArchive ra = new ReadingArchive(new File(pathToEvent));
+			while (ra.hasNext() && counter < chunkSize) {
 				res.add(ra.getNext(IIDEEvent.class));
+				counter++;
 			}
 			ra.close();
 		} catch (Exception e) {
@@ -75,5 +115,23 @@ public final class IoUtility {
 		if (!file.delete()) {
 			System.out.println("Could not delete: " + file.getAbsolutePath());
 		}
+	}
+	
+	public static Set<String> findAllFiles(String rootDir, Predicate<String> predicate) {
+		IOFileFilter fileFilter = new AbstractFileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return predicate.apply(file.getAbsolutePath());
+			}
+		};
+		IOFileFilter allDirs = FileFilterUtils.trueFileFilter();
+		Iterator<File> it = FileUtils.iterateFiles(new File(rootDir), fileFilter, allDirs);
+
+		Set<String> files = Sets.newLinkedHashSet();
+		while (it.hasNext()) {
+			files.add(it.next().getAbsolutePath());
+		}
+
+		return files;
 	}
 }

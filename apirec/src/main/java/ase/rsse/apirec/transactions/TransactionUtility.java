@@ -15,6 +15,7 @@ import ase.rsse.apirec.transactions.changecontext.ChangeContext;
 import ase.rsse.apirec.transactions.codecontext.CodeContext;
 import ase.rsse.utilities.IoUtility;
 import ase.rsse.utilities.JsonUtility;
+import cc.kave.commons.model.events.completionevents.CompletionEvent;
 import cc.kave.commons.model.ssts.IStatement;
 import cc.kave.commons.model.ssts.blocks.ICaseBlock;
 import cc.kave.commons.model.ssts.blocks.ICatchBlock;
@@ -65,16 +66,16 @@ public final class TransactionUtility {
 	private static SST OLD_SST;
 	private static SST NEW_SST;
 
-	public static void createTransaction(SST oldSST, SST newSST) {
-		OLD_SST = oldSST;
-		NEW_SST = newSST;
+	public static void createTransaction(CompletionEvent oldEvent, CompletionEvent newEvent, int number) {
+		OLD_SST = (SST) oldEvent.getContext().getSST();
+		NEW_SST = (SST) newEvent.getContext().getSST();
 		Transaction transaction = new Transaction()
-				.withFileName(oldSST.getEnclosingType().getFullName());
+				.withFileName(NEW_SST.getEnclosingType().getFullName());
 		ChangeContext chctx = new ChangeContext();
 		CodeContext coctx = new CodeContext();
 
 		// matching
-		ArrayList<MethodMatch> methodMatchedMethods = matchMethods(oldSST.getMethods(), newSST.getMethods());
+		ArrayList<MethodMatch> methodMatchedMethods = matchMethods(OLD_SST.getMethods(), NEW_SST.getMethods());
 		
 		// filling
 		fillTransactionWithMethods(methodMatchedMethods, chctx, coctx);
@@ -82,11 +83,14 @@ public final class TransactionUtility {
 		
 		transaction.setChangeContex(chctx);
 		transaction.setCodeContext(coctx);
+		transaction.setProposal(oldEvent.getProposalCollection());
+		transaction.setProposalSelection(oldEvent.getSelections());
 		
 		// writing
 		if (transaction.getCodeContext().getTokens().size() > 0 && transaction.getChangeContex().getAtomicChanges().size() > 0) {
 			try {
-				IoUtility.writeTransactionToFile("test_" + newSST.getEnclosingType().getFullName(), JsonUtility.toJson(transaction));
+				String transactionName = clean(NEW_SST.getEnclosingType().getFullName()) + number;
+				IoUtility.writeTransactionToFile(transactionName, JsonUtility.toJson(transaction));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -117,15 +121,17 @@ public final class TransactionUtility {
 			// handle update, delete & nop
 			Operation operation = getOperation(mm.getSimilarity());
 			if (operation != Operation.NOP) {
-				for (IStatement stmt : mm.getNewMethodDecl().getBody()) {
-					NodeType nodeType = getNodeType(stmt);
-					String label = getLabel(nodeType, stmt);
-					AtomicChange ac = new AtomicChange()
-							.withNodeType(nodeType)
-							.withLabel(label)
-							.withOperation(operation);
-					chctx.addAtomicChange(ac);
-					coctx.addTokens(getTokens(nodeType, stmt));
+				if (mm.getNewMethodDecl() != null) {
+					for (IStatement stmt : mm.getNewMethodDecl().getBody()) {
+						NodeType nodeType = getNodeType(stmt);
+						String label = getLabel(nodeType, stmt);
+						AtomicChange ac = new AtomicChange()
+								.withNodeType(nodeType)
+								.withLabel(label)
+								.withOperation(operation);
+						chctx.addAtomicChange(ac);
+						coctx.addTokens(getTokens(nodeType, stmt));
+					}
 				}
 			}
 		}
@@ -315,8 +321,12 @@ public final class TransactionUtility {
 		} else if (assignableExpr instanceof ICompletionExpression) {
 			ICompletionExpression compExpr = (ICompletionExpression) assignableExpr;
 			tokens.addAll(convertToStringSet(compExpr.getToken()));
-			tokens.addAll(convertToStringSet(compExpr.getTypeReference().getName()));
-			tokens.addAll(convertToStringSet(compExpr.getVariableReference().getIdentifier()));
+			if (compExpr.getTypeReference() != null) {
+				tokens.addAll(convertToStringSet(compExpr.getTypeReference().getName()));
+			}
+			if (compExpr.getVariableReference() != null) {
+				tokens.addAll(convertToStringSet(compExpr.getVariableReference().getIdentifier()));
+			}
 			
 		} else if (assignableExpr instanceof IComposedExpression) {
 			IComposedExpression compExpr = (IComposedExpression) assignableExpr;
@@ -362,13 +372,15 @@ public final class TransactionUtility {
 			
 		} else if (assignableExpr instanceof IUnaryExpression) {
 			IUnaryExpression unExpr = (IUnaryExpression) assignableExpr;
-			tokens.addAll(convertToStringSet(unExpr.getOperand().toString()));
+			if (unExpr.getOperand() != null) {
+				tokens.addAll(convertToStringSet(unExpr.getOperand().toString()));
+			}
 		}
 		return tokens;
 	}
 	
 	public static String getLabel(NodeType nodeType, IStatement statement) {
-		if (nodeType == NodeType.ExpressionStatement) {
+		if (nodeType == NodeType.MethodInvocation) {
 			IAssignableExpression expr = ((IExpressionStatement) statement).getExpression();
 			if (expr instanceof IInvocationExpression) {
 				return ((IInvocationExpression) expr).getMethodName().getName();
@@ -394,6 +406,9 @@ public final class TransactionUtility {
 			return NodeType.EventSubscriptionStatement;
 		}
 		else if (stmt instanceof IExpressionStatement) {
+			if (((IExpressionStatement) stmt).getExpression() instanceof IInvocationExpression) {
+				return NodeType.MethodInvocation;
+			}
 			return NodeType.ExpressionStatement;
 		}
 		else if (stmt instanceof IForEachLoop) {
@@ -461,6 +476,15 @@ public final class TransactionUtility {
 	public static float calculateStringSimilarity(Object oldObject, Object newObject) {
 		JaccardSimilarity<String> jac = new JaccardSimilarity<>();
 		return jac.compare(convertToStringSet(oldObject), convertToStringSet(newObject));
+	}
+	
+	public static String clean(String string) {
+		String cleaned = "";
+		for (String element: convertToStringSet(string)) {
+			if (!element.isEmpty())
+			cleaned += element + ".";
+		}
+		return cleaned.substring(0, cleaned.length()-1);
 	}
 
 	public static HashSet<String> convertToStringSet(Object obj) {

@@ -17,30 +17,20 @@ import ase.rsse.apirec.transactions.ITransactionConstants;
 import ase.rsse.apirec.transactions.MethodMatch;
 import ase.rsse.apirec.transactions.TransactionUtility;
 import ase.rsse.utilities.IoUtility;
-import cc.kave.commons.model.events.IIDEEvent;
 import cc.kave.commons.model.events.completionevents.CompletionEvent;
+import cc.kave.commons.model.events.completionevents.ICompletionEvent;
 import cc.kave.commons.model.ssts.impl.SST;
 
 public class TransactionUtilityTest {
 	
 	public static File TRANSACTION_DIRECTORY;
-	public static List<IIDEEvent> TEST_EVENTS;
-	public static ArrayList<CompletionEvent> TEST_COMPLETION_EVENTS;
+	public static List<ICompletionEvent> TEST_COMPLETION_EVENTS;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		TRANSACTION_DIRECTORY= new File(ITransactionConstants.TRANSACTION_DIRECTORY);
-		TEST_EVENTS = IoUtility
-				.readEvent("C:\\workspaces\\ase_rsse\\apirec\\Events-170301-2\\2016-08-06\\2.zip");
-		TEST_COMPLETION_EVENTS = new ArrayList<>();
-		for (IIDEEvent event : TEST_EVENTS) {
-			if (event instanceof CompletionEvent) {
-				CompletionEvent completionEvent = (CompletionEvent) event;
-				TEST_COMPLETION_EVENTS.add(completionEvent);
-			}
-		}
-		Assert.assertNotNull(TEST_EVENTS);
-		Assert.assertTrue(TEST_EVENTS.size() > 200);
+		TEST_COMPLETION_EVENTS = IoUtility.readEvent("C:\\workspaces\\ase_rsse\\apirec\\Events-170301-2\\2016-08-06\\2.zip");
+
 		Assert.assertTrue(TEST_COMPLETION_EVENTS.size() > 200);
 	}
 	
@@ -56,9 +46,9 @@ public class TransactionUtilityTest {
 
 	@Test
 	public void testCreateMatch() {
-		List<CompletionEvent> ceSorted = TEST_COMPLETION_EVENTS.stream()
+		List<ICompletionEvent> ceSorted = TEST_COMPLETION_EVENTS.stream()
 				.filter(Objects::nonNull)
-				.sorted(Comparator.comparing(CompletionEvent::getTriggeredAt, Comparator.reverseOrder()))
+				.sorted(Comparator.comparing(ICompletionEvent::getTriggeredAt, Comparator.reverseOrder()))
 				.collect(Collectors.toList());
 
 		// test case: everything stays the same -> no transaction created
@@ -67,7 +57,7 @@ public class TransactionUtilityTest {
 		ArrayList<MethodMatch> matching = TransactionUtility.matchMethods(oldSST.getMethods(), newSST.getMethods());
 		Assert.assertNotNull(matching);
 		Assert.assertEquals(1, matching.get(0).getSimilarity(), 0.01);
-		TransactionUtility.createTransaction(oldSST, newSST);
+		TransactionUtility.createTransaction((CompletionEvent) ceSorted.get(0), (CompletionEvent) ceSorted.get(0), 1);
 		File[] testFiles = TRANSACTION_DIRECTORY.listFiles(new FilenameFilter() {
 			
 			@Override
@@ -85,9 +75,9 @@ public class TransactionUtilityTest {
 	
 	@Test
 	public void testMatchWithDifferences() {
-		List<CompletionEvent> ceSorted = TEST_COMPLETION_EVENTS.stream()
+		List<ICompletionEvent> ceSorted = TEST_COMPLETION_EVENTS.stream()
 				.filter(Objects::nonNull)
-				.sorted(Comparator.comparing(CompletionEvent::getTriggeredAt, Comparator.reverseOrder()))
+				.sorted(Comparator.comparing(ICompletionEvent::getTriggeredAt, Comparator.reverseOrder()))
 				.collect(Collectors.toList());
 		
 		SST oldSST = (SST) ceSorted.get(185).getContext().getSST();
@@ -96,12 +86,12 @@ public class TransactionUtilityTest {
 		ArrayList<MethodMatch> matching = TransactionUtility.matchMethods(oldSST.getMethods(), newSST.getMethods());
 		Assert.assertNotNull(matching);
 		
-		TransactionUtility.createTransaction(oldSST, newSST);
+		TransactionUtility.createTransaction((CompletionEvent) ceSorted.get(185), (CompletionEvent) ceSorted.get(192), -100);
 		File[] testFiles = TRANSACTION_DIRECTORY.listFiles(new FilenameFilter() {
 			
 			@Override
 			public boolean accept(File dir, String name) {
-				if (name.startsWith("test_")) {
+				if (name.endsWith("-100.json")) {
 					return true;
 				}
 				return false;
