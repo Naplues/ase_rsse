@@ -13,12 +13,8 @@ import org.simmetrics.metrics.JaccardSimilarity;
 import ase.rsse.apirec.transactions.changecontext.AtomicChange;
 import ase.rsse.apirec.transactions.changecontext.ChangeContext;
 import ase.rsse.apirec.transactions.codecontext.CodeContext;
-import ase.rsse.apirec.transactions.query.QueryAtomicChange;
-import ase.rsse.apirec.transactions.query.QueryChangeContext;
-import ase.rsse.apirec.transactions.query.QueryCodeContext;
 import ase.rsse.utilities.IoUtility;
 import ase.rsse.utilities.JsonUtility;
-import ase.rsse.utilities.ScoringUtility;
 import cc.kave.commons.model.events.completionevents.CompletionEvent;
 import cc.kave.commons.model.ssts.IStatement;
 import cc.kave.commons.model.ssts.blocks.ICaseBlock;
@@ -66,61 +62,30 @@ import cc.kave.commons.utils.ToStringUtils;
 public final class TransactionUtility {
 
 	public static float DELETE_SIMILARITY_THRESHOLD = 0.2f;
-	public static float UPDATE_SIMILARITY_THRESHOLD = 0.95f;
+	public static float UPDATE_SIMILARITY_THRESHOLD = 0.99f;
 	private static SST OLD_SST;
 	private static SST NEW_SST;
 
 	public static void createTransaction(CompletionEvent oldEvent, CompletionEvent newEvent, int number) {
+		// initialize SSTs
 		OLD_SST = (SST) oldEvent.getContext().getSST();
 		NEW_SST = (SST) newEvent.getContext().getSST();
-		Transaction transaction = new Transaction()
-				.withFileName(NEW_SST.getEnclosingType().getFullName());
+		
+		// matching -> match old and new methods
+		ArrayList<MethodMatch> matchedMethods = matchMethods(OLD_SST.getMethods(), NEW_SST.getMethods());
+
+		// prepare change and code context
 		ChangeContext chctx = new ChangeContext();
 		CodeContext coctx = new CodeContext();
+		
+		// filling -> fill matches into change an code Context
+		fillTransactionWithMethods(matchedMethods, chctx, coctx);
 
-		// matching
-		ArrayList<MethodMatch> methodMatchedMethods = matchMethods(OLD_SST.getMethods(), NEW_SST.getMethods());
-		
-		// filling
-		fillTransactionWithMethods(methodMatchedMethods, chctx, coctx);
-		
-		
-		transaction.setChangeContex(chctx);
-		transaction.setCodeContext(coctx);
-		
-		QueryChangeContext queryChangeContext = new QueryChangeContext();
-		ArrayList<QueryAtomicChange> qac = new ArrayList<>();
-		for (AtomicChange ac: chctx.getAtomicChanges()) {
-			qac.add(new QueryAtomicChange()
-					.withLabel(ac.getLabel())
-					.withNodeType(ac.getNodeType())
-					.withOperation(ac.getOperation()));
-		}
-		QueryCodeContext queryCodeContext = new QueryCodeContext();
-		queryCodeContext.setTokens(coctx.getTokens());
-		queryChangeContext.setQueryAtomicChanges(qac);
-		
-		Set<AtomicChange> candidateChanges = ScoringUtility.getAllCandidateChanges(queryChangeContext, queryCodeContext);
-		Set<AtomicChange> smallSet = new HashSet();
-		System.out.println("Before scoring");
-		int count = 0;
-		for (AtomicChange at: candidateChanges) {
-			smallSet.add(at);
-			count++;
-			if (count > 10) {
-				break;
-			}
-		}
-		HashMap<String,Double> scoreChangeContext = ScoringUtility.scoreChangeContext(smallSet, queryChangeContext);
-		HashMap<String,Double> scoreCodeContext = ScoringUtility.scoreCodeContext(smallSet, queryCodeContext);
-		System.out.println("Score of CHANGE context");
-		for (String label: scoreChangeContext.keySet()) {
-			System.out.println(label + ": " + scoreChangeContext.get(label));
-		}
-		System.out.println("Score of CODE context");
-		for (String label: scoreCodeContext.keySet()) {
-			System.out.println(label + ": " + scoreCodeContext.get(label));
-		}
+		// create transaction with filled change and code context
+		Transaction transaction = new Transaction()
+				.withFileName(NEW_SST.getEnclosingType().getFullName())
+				.withChangeContext(chctx)
+				.withCodeContext(coctx);
 		
 		// writing
 		if (transaction.getCodeContext().getTokens().size() > 0 && transaction.getChangeContex().getAtomicChanges().size() > 0) {
@@ -528,7 +493,9 @@ public final class TransactionUtility {
 		String str = ToStringUtils.toString(obj);
 		String[] split = str.split("\\W+");
 		for (String s : split) {
-			set.add(s);
+			if (!s.isEmpty() && !s.matches("\\d+")) {
+				set.add(s);
+			}
 		}
 		return set;
 	}

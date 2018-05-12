@@ -36,7 +36,7 @@ public class QueryTransaction {
 		return this;
 	}
 
-	public QueryChangeContext getChangeContex() {
+	public QueryChangeContext getQueryChangeContex() {
 		return changeContex;
 	}
 

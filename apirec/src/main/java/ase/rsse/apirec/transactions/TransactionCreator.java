@@ -15,8 +15,6 @@ import cc.kave.commons.model.events.completionevents.ICompletionEvent;
 
 public class TransactionCreator {
 	
-	public static ArrayList<String> EXCLUDED_FILES = getExcludedFiles();
-	
 	public static void main(String[] args) {
 		// find all zips with event data
 		Set<String> allEventData = IoUtility.findAllFiles(ITransactionConstants.EVENTS_DIRECTORY, s -> s.endsWith(".zip"));
@@ -25,12 +23,10 @@ public class TransactionCreator {
 		System.out.println("Starting creation of transactions...");
 		
 		for (String eventData: allEventData) {
-			if (!EXCLUDED_FILES.contains(eventData)) {
-				System.out.println(eventData);
-				List<ICompletionEvent> events = IoUtility.readEvent(eventData);
-				HashMap<String, ArrayList<CompletionEvent>> fileToEvents = prepareCompletionEvents(events);
-				processCompletionEvents(fileToEvents);
-			}
+			System.out.println(eventData);
+			List<ICompletionEvent> events = IoUtility.readEvent(eventData);
+			HashMap<String, ArrayList<CompletionEvent>> fileToEvents = prepareCompletionEvents(events);
+			processCompletionEvents(fileToEvents);
 		}
 	}
 
@@ -45,7 +41,7 @@ public class TransactionCreator {
 			ArrayList<CompletionEvent> completionEvents = fileToEvents.get(key);
 			List<CompletionEvent> sortedCompletionEvents = completionEvents.stream()
 					.filter(Objects::nonNull)
-					.sorted(Comparator.comparing(CompletionEvent::getTriggeredAt, Comparator.reverseOrder()))
+					.sorted(Comparator.comparing(CompletionEvent::getTriggeredAt))
 					.collect(Collectors.toList());
 			
 			// process successive pairs
@@ -81,11 +77,5 @@ public class TransactionCreator {
 			}
 		}
 		return fileToEvents;
-	}
-	
-	public static ArrayList<String> getExcludedFiles() {
-		ArrayList<String> excluded = new ArrayList<>();
-		excluded.add("C:\\workspaces\\ase_rsse\\apirec\\Events-170301-2\\2016-05-09\\1.zip");
-		return excluded;
 	}
 }
