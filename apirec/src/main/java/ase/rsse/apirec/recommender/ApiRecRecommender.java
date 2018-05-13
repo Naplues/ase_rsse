@@ -27,6 +27,7 @@ public class ApiRecRecommender implements IApiRecRecommender {
 		// initialize SSTs
 		SST oldSst = (SST) oldCompletinEvent.getContext().getSST();
 		SST newSst = (SST) newCompletionEvent.getContext().getSST();
+		TransactionUtility.init(oldSst, newSst);
 		
 		// matching -> match old and new methods
 		ArrayList<MethodMatch> matchedMethods = TransactionUtility.matchMethods(oldSst.getMethods(), newSst.getMethods());
