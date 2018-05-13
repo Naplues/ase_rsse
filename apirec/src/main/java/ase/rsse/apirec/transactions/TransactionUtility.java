@@ -71,6 +71,7 @@ public final class TransactionUtility {
 		OLD_SST = (SST) oldEvent.getContext().getSST();
 		NEW_SST = (SST) newEvent.getContext().getSST();
 		
+		// 5) a. matching methods
 		// matching -> match old and new methods
 		ArrayList<MethodMatch> matchedMethods = matchMethods(OLD_SST.getMethods(), NEW_SST.getMethods());
 
@@ -78,6 +79,7 @@ public final class TransactionUtility {
 		ChangeContext chctx = new ChangeContext();
 		CodeContext coctx = new CodeContext();
 		
+		// 5) b. filling transactions with matches
 		// filling -> fill matches into change an code Context
 		fillTransactionWithMethods(matchedMethods, chctx, coctx);
 
@@ -90,6 +92,7 @@ public final class TransactionUtility {
 		// writing
 		if (transaction.getCodeContext().getTokens().size() > 0 && transaction.getChangeContex().getAtomicChanges().size() > 0) {
 			try {
+				// 5) c. serializing the transactions as JSON
 				String transactionName = clean(NEW_SST.getEnclosingType().getFullName()) + number;
 				IoUtility.writeTransactionToFile(transactionName, JsonUtility.toJson(transaction));
 			} catch (IOException e) {
