@@ -17,7 +17,7 @@ import ase.rsse.apirec.transactions.query.QueryTransaction;
 import ase.rsse.utilities.IoUtility;
 import ase.rsse.utilities.JsonUtility;
 
-public final class MockDataUtility {
+public class MockDataUtility {
 	
 	public static String TEST_QUERY_TRANSACTION = "testQueryTransaction.json";
 	public static ArrayList<String> MOCK_TRANSACTIONS = new ArrayList<>();
