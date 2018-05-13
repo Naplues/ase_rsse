@@ -3,6 +3,10 @@ package ase.rsse.apirec.transactions;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import ase.rsse.apirec.transactions.query.QueryAtomicChange;
+import ase.rsse.apirec.transactions.query.QueryChangeContext;
+import ase.rsse.apirec.transactions.query.QueryCodeContext;
+import ase.rsse.apirec.transactions.query.QueryTransaction;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -27,15 +31,48 @@ public class ScoringDemo {
         MockDataUtility.createTestTransactions();
 
         ArrayList<Transaction> allTransactions = ScoringUtility.getAllTransactions();
-        Set<AtomicChange> allCandidateChanges = ScoringUtility.getAllCandidateChanges(MockDataUtility.QUERY_CHANGE_CONTEXT,	MockDataUtility.QUERY_CODE_CONTEXT);
+        System.out.println("Size of all Transactions - " + allTransactions.size());
+        QueryTransaction tempQueryTransaction = new QueryTransaction();
 
-        HashMap<String, Double> changeContextScores = ScoringUtility.scoreChangeContext(allCandidateChanges, MockDataUtility.QUERY_CHANGE_CONTEXT);
+        for(Transaction trans : allTransactions){
+            if(trans.getFileName().equalsIgnoreCase("Gugel.FEMain")){
+                tempQueryTransaction.setFileName(trans.getFileName());
+                QueryCodeContext queryCodeContext = new QueryCodeContext();
+                queryCodeContext.setTokens(trans.getCodeContext().getTokens());
+//                tempQueryTransaction.setQueryCodeContext((QueryCodeContext) trans.getCodeContext());
+                QueryChangeContext queryChangeContext = new QueryChangeContext();
+                ArrayList<QueryAtomicChange> qac = new ArrayList<>();
+                for (AtomicChange ac: trans.getChangeContex().getAtomicChanges()) {
+                    qac.add(new QueryAtomicChange()
+                            .withLabel(ac.getLabel())
+                            .withNodeType(ac.getNodeType())
+                            .withOperation(ac.getOperation()));
+                }
+                queryChangeContext.setQueryAtomicChanges(qac);
+                tempQueryTransaction.setChangeContex(queryChangeContext);
+                tempQueryTransaction.setQueryCodeContext(queryCodeContext);
+                break;
+            }
+        }
 
+        Set<AtomicChange> allCandidateChanges = ScoringUtility.getAllCandidateChanges(
+                tempQueryTransaction.getQueryChangeContex(),
+                tempQueryTransaction.getQueryCodeContext());
+
+        System.out.println("Size of all Candidate Changes - " + allCandidateChanges.size());
+
+        System.out.println("======== Begin Scoring ========");
+        System.out.println("================================");
+        System.out.println("======== Scoring Change Context ========");
+        HashMap<String, Double> changeContextScores = ScoringUtility.scoreChangeContext(allCandidateChanges,
+                tempQueryTransaction.getQueryChangeContex());
         changeContextScores.entrySet().stream().sorted((k1,k2) -> k1.getValue().compareTo(k2.getValue()))
                 .forEach(k->System.out.println(k.getKey() + ": " +k.getValue()));
 
-        HashMap<String,Double> codeContextScores = ScoringUtility.scoreCodeContext(allCandidateChanges, MockDataUtility.QUERY_CODE_CONTEXT);
-
-
+        System.out.println("======== Scoring Code Context ========");
+        HashMap<String, Double> codeContextScores = ScoringUtility.scoreCodeContext(allCandidateChanges,
+                tempQueryTransaction.getQueryCodeContext());
+        codeContextScores.entrySet().stream().sorted((k1,k2) -> k1.getValue().compareTo(k2.getValue()))
+                .forEach(k->System.out.println(k.getKey() + ": " +k.getValue()));
     }
 }

@@ -120,7 +120,9 @@ public final class ScoringUtility {
 				String string = FileUtils.readFileToString(file);
 				Transaction transaction = JsonUtility.fromJson(string);
 				allTransactions.add(transaction);
-				System.out.println(counter);
+				if((counter % 10000) == 0){
+					System.out.println(counter);
+				}
 				counter++;
 			} catch (IOException e) {
 				e.printStackTrace();
