@@ -46,7 +46,7 @@ public final class IoUtility {
 		try {
 			IReadingArchive ra = new ReadingArchive(new File(pathToEvent));
 			int counter = 0;
-			while (ra.hasNext() && counter < 20000) {
+			while (ra.hasNext() && counter < 10000) {
 				IIDEEvent next = ra.getNext(IIDEEvent.class);
 				if (next instanceof ICompletionEvent) {
 					res.add((ICompletionEvent) next);

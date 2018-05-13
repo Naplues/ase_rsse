@@ -17,16 +17,19 @@ public class TransactionCreator {
 	
 	public static void main(String[] args) {
 		// find all zips with event data
-		Set<String> allEventData = IoUtility.findAllFiles(ITransactionConstants.EVENTS_DIRECTORY, s -> s.endsWith(".zip"));
-		System.out.println("Number of event data zips found: " + allEventData.size());
+//		Set<String> allEventData = IoUtility.findAllFiles(ITransactionConstants.EVENTS_DIRECTORY, s -> s.endsWith(".zip"));
+		Set<String> allEventDataKuersat = IoUtility.findAllFiles(ITransactionConstants.EVENTS_DIRECTORY,
+				s -> s.endsWith(".zip"));
+		System.out.println("Number of event data zips found: " + allEventDataKuersat.size());
 		
 		System.out.println("Starting creation of transactions...");
-		
-		for (String eventData: allEventData) {
-			System.out.println(eventData);
+		int counter = 0;
+		for (String eventData: allEventDataKuersat) {
+			System.out.println(counter+" - "+eventData);
 			List<ICompletionEvent> events = IoUtility.readEvent(eventData);
 			HashMap<String, ArrayList<CompletionEvent>> fileToEvents = prepareCompletionEvents(events);
 			processCompletionEvents(fileToEvents);
+			counter++;
 		}
 	}
 
