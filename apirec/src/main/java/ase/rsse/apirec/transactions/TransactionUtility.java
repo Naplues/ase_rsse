@@ -499,4 +499,9 @@ public final class TransactionUtility {
 		}
 		return set;
 	}
+	
+	public static void init(SST oldSst, SST newSst) {
+		OLD_SST = oldSst;
+		NEW_SST = newSst;
+	}
 }

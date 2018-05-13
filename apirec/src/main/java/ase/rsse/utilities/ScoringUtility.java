@@ -114,16 +114,11 @@ public final class ScoringUtility {
 	public static ArrayList<Transaction> getAllTransactions() {
 		File[] allFiles = IoUtility.findAllTransactions();
 		ArrayList<Transaction> allTransactions = new ArrayList<>();
-		int counter = 0;
 		for (File file : allFiles) {
 			try {
 				String string = FileUtils.readFileToString(file);
 				Transaction transaction = JsonUtility.fromJson(string);
 				allTransactions.add(transaction);
-				if((counter % 10000) == 0){
-					System.out.println(counter);
-				}
-				counter++;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

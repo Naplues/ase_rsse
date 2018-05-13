@@ -65,7 +65,7 @@ public class TransactionCreator {
 		}
 	}
 
-	private static HashMap<String, ArrayList<CompletionEvent>> prepareCompletionEvents(List<ICompletionEvent> events) {
+	public static HashMap<String, ArrayList<CompletionEvent>> prepareCompletionEvents(List<ICompletionEvent> events) {
 		System.out.println("Preparing completion events...");
 		HashMap<String, ArrayList<CompletionEvent>> fileToEvents = new HashMap<>();
 		for (ICompletionEvent event: events) {
