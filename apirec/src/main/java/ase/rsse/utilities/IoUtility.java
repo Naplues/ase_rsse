@@ -26,7 +26,6 @@ import cc.kave.commons.utils.io.ReadingArchive;
 
 public final class IoUtility {
 
-
 	public static List<Context> readContext(String pathToContext) {
 		LinkedList<Context> res = Lists.newLinkedList();
 		try {
@@ -54,7 +53,7 @@ public final class IoUtility {
 					if (counter % 1000 == 0) {
 						System.out.println(counter);
 					}
-					
+
 				}
 			}
 			ra.close();
@@ -63,7 +62,7 @@ public final class IoUtility {
 		}
 		return res;
 	}
-	
+
 	public static int getEventDataSize(String pathToEvent) {
 		ReadingArchive ra = new ReadingArchive(new File(pathToEvent));
 		int size = ra.getNumberOfEntries();
@@ -92,31 +91,44 @@ public final class IoUtility {
 		FileUtils.writeStringToFile(file, json);
 	}
 
+	public static void writeTestTransactionToFile(String fileName, String json) throws IOException {
+		File file = new File(ITransactionConstants.TEST_TRANSACTION_DIRECTORY, fileName + ".json");
+		FileUtils.writeStringToFile(file, json);
+	}
+
 	public static String readContent(String parentDir, String fileName) throws IOException {
 		File file = new File(parentDir, fileName);
 		return FileUtils.readFileToString(file);
 	}
-	
+
 	public static String readContentOfTransaction(String fileName) throws IOException {
-		return readContent(ITransactionConstants.TRANSACTION_DIRECTORY, fileName);
+		return readContent(ITransactionConstants.TRANSACTION_DIRECTORY, fileName + ".json");
 	}
-	
+
 	public static File[] findAllTransactions() {
-		return Paths.get(ITransactionConstants.TRANSACTION_DIRECTORY)
-		.toFile()
-		.listFiles(file -> !file.isHidden() 
-				&&  file.isFile() 
-				&& file.getName().endsWith(".json")
-				&& !file.getName().startsWith("test"));
+		return Paths.get(ITransactionConstants.TRANSACTION_DIRECTORY).toFile().listFiles(file -> !file.isHidden()
+				&& file.isFile() && file.getName().endsWith(".json") && !file.getName().startsWith("test"));
 	}
-	
+
+	public static File[] findAllTestTransactions() {
+		return Paths.get(ITransactionConstants.TEST_TRANSACTION_DIRECTORY).toFile().listFiles(file -> !file.isHidden()
+				&& file.isFile() && file.getName().endsWith(".json") && file.getName().startsWith("mock"));
+	}
+
 	public static void deleteTransactionFile(String fileName) throws IOException {
 		File file = new File(ITransactionConstants.TRANSACTION_DIRECTORY, fileName);
 		if (!file.delete()) {
 			System.out.println("Could not delete: " + file.getAbsolutePath());
 		}
 	}
-	
+
+	public static void deleteTestTransactionFile(String fileName) throws IOException {
+		File file = new File(ITransactionConstants.TEST_TRANSACTION_DIRECTORY, fileName);
+		if (!file.delete()) {
+			System.out.println("Could not delete: " + file.getAbsolutePath());
+		}
+	}
+
 	public static Set<String> findAllFiles(String rootDir, Predicate<String> predicate) {
 		IOFileFilter fileFilter = new AbstractFileFilter() {
 			@Override
