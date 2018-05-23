@@ -19,7 +19,7 @@ import ase.rsse.utilities.JsonUtility;
 
 public class TransactionTest  {
 	
-	public static final String TEST_FILE_NAME = "test.json";
+	public static final String TEST_FILE_NAME = "test";
 	public static ChangeContext CHANGE_CONTEXT;
 	public static CodeContext CODE_CONTEXT;
 	public static Transaction TRANSACTION;
@@ -44,12 +44,12 @@ public class TransactionTest  {
 		String json = JsonUtility.toJson(TRANSACTION);
 		try {
 			IoUtility.writeTransactionToFile(TEST_FILE_NAME, json);
+			String transaction = IoUtility.readContentOfTransaction(TEST_FILE_NAME);
+			assertTrue(!transaction.isEmpty());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		File file = new File(ITransactionConstants.TRANSACTION_DIRECTORY, TEST_FILE_NAME);
-		assertTrue(file.exists());
-		assertTrue(file.isFile());
 	}
 	
 	@Test
