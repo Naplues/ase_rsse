@@ -22,6 +22,7 @@ import ase.rsse.apirec.transactions.query.QueryCodeContext;
 
 public final class ScoringUtility {
 	public static ArrayList<Transaction> ALL_TRANSACTIONS = getAllTransactions();
+	public static ArrayList<Transaction> ALL_TEST_TRANSACTIONS = getAllTestTransactions();
 	public static List<List<String>> changeContextScoreMatrix;
 	public static List<List<String>> codeContextScoreMatrix;
 
@@ -44,6 +45,25 @@ public final class ScoringUtility {
 		return candidateChanges;
 	}
 
+	public static Set<AtomicChange> getAllTestCandidateChanges(QueryChangeContext queryChangeContext,
+			QueryCodeContext queryCodeContext) {
+		HashSet<AtomicChange> candidateChanges = new HashSet<>();
+		
+		Set<Transaction> candidateTransactions = ALL_TEST_TRANSACTIONS.stream()
+				.filter(transaction -> !Collections.disjoint(transaction.getChangeContex().getAtomicChanges(), queryChangeContext.getQueryAtomicChanges())
+						|| !Collections.disjoint(transaction.getCodeContext().getTokens(), queryCodeContext.getTokens()))
+				.collect(Collectors.toSet());
+		
+		for (Transaction ts : candidateTransactions) {
+			ts.getChangeContex().getAtomicChanges().stream()
+			.filter(atomicChange -> atomicChange.getOperation() == Operation.ADD)
+			.filter(atomicChange -> atomicChange.getNodeType() == NodeType.MethodInvocation)
+			.forEach(atomicChange -> candidateChanges.add(new AtomicChange().withOperation(Operation.ADD)
+					.withNodeType(NodeType.MethodInvocation).withLabel(atomicChange.getLabel())));
+		}
+		return candidateChanges;
+	}
+
 	public static HashMap<String, Double> scoreChangeContext(Set<AtomicChange> candidateChanges, QueryChangeContext queryChangeContext) {
 		HashMap<String, Double> changeContextScores = new HashMap<>();
 		for (AtomicChange candidateChange : candidateChanges) {
@@ -61,6 +81,15 @@ public final class ScoringUtility {
 		HashMap<String, Double> codeContextScores = new HashMap<>();
 		for (AtomicChange candidateChange : candidateChanges) {
 			double codeContextScore = scoreCodeOccurences(candidateChange, queryCodeContext);
+			codeContextScores.put(candidateChange.getLabel(), codeContextScore);
+		}
+		return codeContextScores;
+	}
+
+	public static HashMap<String, Double> scoreTestCodeContext(Set<AtomicChange> candidateChanges, QueryCodeContext queryCodeContext) {
+		HashMap<String, Double> codeContextScores = new HashMap<>();
+		for (AtomicChange candidateChange : candidateChanges) {
+			double codeContextScore = scoreTestCodeOccurences(candidateChange, queryCodeContext);
 			codeContextScores.put(candidateChange.getLabel(), codeContextScore);
 		}
 		return codeContextScores;
@@ -110,6 +139,24 @@ public final class ScoringUtility {
 		}
 		return codeContextScore / queryCodeContext.getTokens().size();
 	}
+	
+	public static double scoreTestCodeOccurences(AtomicChange candidateChange, QueryCodeContext queryCodeContext) {
+		double codeContextScore = 0.0;
+		
+		for (String token: queryCodeContext.getTokens()) {
+			List<Transaction> queryCodeOccurrences = getTestTransactionsWithToken(token);
+			List<Transaction> candidateTokenOccurrences = getTestTransactionsWithToken(candidateChange.getLabel());
+			
+			int numberOfCoOccurences = queryCodeOccurrences.stream()
+					.filter(candidateTokenOccurrences::contains)
+					.collect(Collectors.toList()).size();
+			
+			if (numberOfCoOccurences != 0) {
+				codeContextScore = ((double) numberOfCoOccurences / (queryCodeOccurrences.size()));
+			}
+		}
+		return codeContextScore / queryCodeContext.getTokens().size();
+	}
 
 	public static ArrayList<Transaction> getAllTransactions() {
 		File[] allFiles = IoUtility.findAllTransactions();
@@ -126,8 +173,29 @@ public final class ScoringUtility {
 		return allTransactions;
 	}
 
+	public static ArrayList<Transaction> getAllTestTransactions() {
+		File[] allFiles = IoUtility.findAllTestTransactions();
+		ArrayList<Transaction> allTransactions = new ArrayList<>();
+		for (File file : allFiles) {
+			try {
+				String string = FileUtils.readFileToString(file);
+				Transaction transaction = JsonUtility.fromJson(string);
+				allTransactions.add(transaction);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return allTransactions;
+	}
+
 	private static List<Transaction> getTransactionsWithToken(String queryToken) {
 		return ALL_TRANSACTIONS.stream()
+				.filter(transaction -> transaction.getCodeContext().getTokens().contains(queryToken))
+				.collect(Collectors.toList());
+	}
+
+	private static List<Transaction> getTestTransactionsWithToken(String queryToken) {
+		return ALL_TEST_TRANSACTIONS.stream()
 				.filter(transaction -> transaction.getCodeContext().getTokens().contains(queryToken))
 				.collect(Collectors.toList());
 	}

@@ -51,9 +51,14 @@ public class RecommenderDemo {
 			System.out.println("Operation: " + qac.getOperation() + " NodeType: " + qac.getNodeType() + " Label: " + qac.getLabel());
 		}
 		
+		// actual usage
+		long startTime = System.nanoTime();
 		ArrayList<String> kBest = recommender.predictKBest(oldCompletionEvent, newCompletionEvent, 5);
 		for (int i = 0; i < kBest.size(); i++) {
 			System.out.println((i+1) + ". -> " + kBest.get(i));
 		}
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000000;
+		System.out.println("Scoring took: " + duration + " seconds");
 	}
 }
