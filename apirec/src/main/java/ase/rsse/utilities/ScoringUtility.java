@@ -91,6 +91,19 @@ public final class ScoringUtility {
 		return changeContextScores;
 	}
 
+	public static HashMap<String, Double> scoreTestChangeContext(Set<AtomicChange> candidateChanges, QueryChangeContext queryChangeContext) {
+		HashMap<String, Double> changeContextScores = new HashMap<>();
+		for (AtomicChange candidateChange : candidateChanges) {
+			double changeContextScore = 0f;
+			for (QueryAtomicChange queryChange : queryChangeContext.getQueryAtomicChanges()) {
+				double currentChangeContextScore = scoreTestChangeOccurences(candidateChange, queryChange);
+				changeContextScore += currentChangeContextScore;
+			}
+			changeContextScores.put(candidateChange.getLabel(),	changeContextScore / queryChangeContext.getQueryAtomicChanges().size());
+		}
+		return changeContextScores;
+	}
+
 	public static HashMap<String, Double> scoreCodeContext(Set<AtomicChange> candidateChanges, QueryCodeContext queryCodeContext) {
 		HashMap<String, Double> codeContextScores = new HashMap<>();
 		for (AtomicChange candidateChange : candidateChanges) {
@@ -124,14 +137,43 @@ public final class ScoringUtility {
 		return (double) numberOfCoOccurences.size() / (queryChangeOccurrences.size());
 	}
 
+	public static double scoreTestChangeOccurences(AtomicChange candidateChange, QueryAtomicChange queryChange) {
+		List<Transaction> queryChangeOccurrences = getTestTransactionsWithQueryChangeOccurrence(queryChange);
+		List<Transaction> changeOccurrences = getTestTransactionsWithCandidateChangeOccurrence(candidateChange);
+		
+		List<Transaction> numberOfCoOccurences = queryChangeOccurrences.stream()
+				.filter(changeOccurrences::contains)
+				.collect(Collectors.toList());
+		
+		if (numberOfCoOccurences.size() == 0) {
+			return 0;
+		}
+		
+		return (double) numberOfCoOccurences.size() / (queryChangeOccurrences.size());
+	}
+	
+	
+
 	private static List<Transaction> getTransactionsWithQueryChangeOccurrence(QueryAtomicChange queryChange) {
 		return ALL_TRANSACTIONS.stream()
 				.filter(transaction -> transaction.getChangeContex().getAtomicChanges().contains(queryChange))
 				.collect(Collectors.toList());
 	}
 
+	private static List<Transaction> getTestTransactionsWithQueryChangeOccurrence(QueryAtomicChange queryChange) {
+		return ALL_TEST_TRANSACTIONS.stream()
+				.filter(transaction -> transaction.getChangeContex().getAtomicChanges().contains(queryChange))
+				.collect(Collectors.toList());
+	}
+
 	private static List<Transaction> getTransactionsWithCandidateChangeOccurrence(AtomicChange candidateChange) {
 		return ALL_TRANSACTIONS.stream()
+				.filter(transaction -> transaction.getChangeContex().getAtomicChanges().contains(candidateChange))
+				.collect(Collectors.toList());
+	}
+
+	private static List<Transaction> getTestTransactionsWithCandidateChangeOccurrence(AtomicChange candidateChange) {
+		return ALL_TEST_TRANSACTIONS.stream()
 				.filter(transaction -> transaction.getChangeContex().getAtomicChanges().contains(candidateChange))
 				.collect(Collectors.toList());
 	}

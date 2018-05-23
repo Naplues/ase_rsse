@@ -52,7 +52,7 @@ public class ScoringUtilityTest {
 		Assert.assertEquals(5, allTransactions.size());
 		Assert.assertEquals(5, allCandidateChanges.size());
 		
-		HashMap<String, Double> changeContextScores = ScoringUtility.scoreChangeContext(allCandidateChanges, MockDataUtility.QUERY_CHANGE_CONTEXT);
+		HashMap<String, Double> changeContextScores = ScoringUtility.scoreTestChangeContext(allCandidateChanges, MockDataUtility.QUERY_CHANGE_CONTEXT);
 		
 		Assert.assertEquals(0.2, changeContextScores.get("add"), 0.01);
 		Assert.assertEquals(0.2, changeContextScores.get("contains"), 0.01);
