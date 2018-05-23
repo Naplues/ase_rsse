@@ -19,7 +19,7 @@ import ase.rsse.utilities.JsonUtility;
 
 public class MockDataUtility {
 	
-	public static String TEST_QUERY_TRANSACTION = "testQueryTransaction.json";
+	public static String TEST_QUERY_TRANSACTION = "testQueryTransaction";
 	public static ArrayList<String> MOCK_TRANSACTIONS = new ArrayList<>();
 	public static QueryChangeContext QUERY_CHANGE_CONTEXT = new QueryChangeContext();
 	public static QueryCodeContext QUERY_CODE_CONTEXT = new QueryCodeContext();
@@ -98,7 +98,7 @@ public class MockDataUtility {
 		
 		String json = JsonUtility.toJson(queryTransaction);
 		try {
-			IoUtility.writeTransactionToFile(queryTransaction.getFileName(), json);
+			IoUtility.writeTestTransactionToFile(queryTransaction.getFileName(), json);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -193,8 +193,8 @@ public class MockDataUtility {
 			int i = 1;
 			for (Transaction ts : mockTransactions) {
 				String json = JsonUtility.toJson(ts);
-				String fileName = "mockTransaction_" + i + ".json";
-				IoUtility.writeTransactionToFile(fileName, json);
+				String fileName = "mockTransaction_" + i;
+				IoUtility.writeTestTransactionToFile(fileName, json);
 				MOCK_TRANSACTIONS.add(fileName);
 				i++;
 			}
